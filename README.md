@@ -38,6 +38,8 @@ short workflow for IREC-7 policy:
 ## Software requirements
 - Download apache-jmeter-5.5
 
+- Download and install plugins
+
 - Follow steps from the [README](https://github.com/hashgraph/guardian/blob/main/README.md) to install, configure and deploy Guardian application
 
 
@@ -52,6 +54,12 @@ short workflow for IREC-7 policy:
 2. Change the tree for "performance-testing"
 
 3. Download apache-jmeter-5.5 from official site
+
+4. Download and install JMeter Plugins Manager. More details:https://jmeter-plugins.org/wiki/PluginsManager/
+
+5. Install "Custom Thread Groups" plugin by JMeter Plugins Manager. There is should be found by UI in Apache JMeter: Options->Plugins Managers->Available Plugins
+
+6. Install "WebSocket Samplers by Peter Doornbosch" plugin by JMeter Plugins Manager. There is should be found by UI in Apache JMeter: Options->Plugins Managers->Available Plugins
 
 ## Usage Short Flow
 ### Pre-requests
