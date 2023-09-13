@@ -735,12 +735,12 @@
                     <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
                   </JSONPostProcessor>
                   <hashTree/>
-                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="SR key gen result update" enabled="true">
                     <stringProp name="scriptLanguage">javascript</stringProp>
                     <stringProp name="parameters"></stringProp>
                     <stringProp name="filename"></stringProp>
                     <stringProp name="cacheKey">true</stringProp>
-                    <stringProp name="script">var result = JSON.parse(vars.get(&quot;operationStatusSR&quot;))
+                    <stringProp name="script">var result = vars.get(&quot;operationStatusSR&quot;)
 
 if (result!=&quot;&quot;)
 	vars.put(&apos;operationStatusSR&apos;, &apos;DONE&apos;)</stringProp>
@@ -755,7 +755,7 @@ if (result!=&quot;&quot;)
                   <hashTree/>
                 </hashTree>
                 <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Error checking" enabled="true">
-                  <stringProp name="IfController.condition">${__javaScript(&quot;${operationStatusSRError}&quot; == 500],)}</stringProp>
+                  <stringProp name="IfController.condition">${__javaScript(&quot;${operationStatusSRError}&quot; == 500,)}</stringProp>
                   <boolProp name="IfController.evaluateAll">false</boolProp>
                   <boolProp name="IfController.useExpression">true</boolProp>
                 </IfController>
@@ -995,7 +995,7 @@ if (result!=&quot;&quot;)
                     <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
                   </JSONPostProcessor>
                   <hashTree/>
-                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="SR Link result update" enabled="true">
                     <stringProp name="scriptLanguage">javascript</stringProp>
                     <stringProp name="parameters"></stringProp>
                     <stringProp name="filename"></stringProp>
@@ -1236,12 +1236,12 @@ if (result!=&quot;&quot;)
                     <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
                   </JSONPostProcessor>
                   <hashTree/>
-                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="User key gen result update" enabled="true">
                     <stringProp name="scriptLanguage">javascript</stringProp>
                     <stringProp name="parameters"></stringProp>
                     <stringProp name="filename"></stringProp>
                     <stringProp name="cacheKey">true</stringProp>
-                    <stringProp name="script">var result = JSON.parse(vars.get(&quot;operationStatusUser&quot;))
+                    <stringProp name="script">var result = vars.get(&quot;operationStatusUser&quot;)
 
 if (result!=&quot;&quot;)
 	vars.put(&apos;operationStatusUser&apos;, &apos;DONE&apos;)</stringProp>
@@ -1392,7 +1392,7 @@ if (result!=&quot;&quot;)
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Save SR did" enabled="true">
                   <stringProp name="scriptLanguage">javascript</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
@@ -1530,7 +1530,7 @@ vars.put(&apos;srDid&apos;, srDid)</stringProp>
                     <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
                   </JSONPostProcessor>
                   <hashTree/>
-                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+                  <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="User link result update" enabled="true">
                     <stringProp name="scriptLanguage">javascript</stringProp>
                     <stringProp name="parameters"></stringProp>
                     <stringProp name="filename"></stringProp>
@@ -1598,7 +1598,7 @@ if (result!=&quot;&quot;)
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -1854,12 +1854,12 @@ if (result!=&quot;&quot;)
                   <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Policy import result update" enabled="true">
                   <stringProp name="scriptLanguage">javascript</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
                   <stringProp name="cacheKey">true</stringProp>
-                  <stringProp name="script">var result = JSON.parse(vars.get(&quot;importStatusPolicy&quot;))
+                  <stringProp name="script">var result = vars.get(&quot;importStatusPolicy&quot;)
 
 if (result!=&quot;&quot;)
 	vars.put(&apos;importStatusPolicy&apos;, &apos;DONE&apos;)</stringProp>
@@ -2067,12 +2067,12 @@ if (result!=&quot;&quot;)
                   <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Policy publish result update" enabled="true">
                   <stringProp name="scriptLanguage">javascript</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
                   <stringProp name="cacheKey">true</stringProp>
-                  <stringProp name="script">var result = JSON.parse(vars.get(&quot;publishStatusPolicy&quot;))
+                  <stringProp name="script">var result = vars.get(&quot;publishStatusPolicy&quot;)
 
 if (result!=&quot;&quot;)
 	vars.put(&apos;publishStatusPolicy&apos;, &apos;DONE&apos;)</stringProp>
@@ -2190,7 +2190,7 @@ if (result!=&quot;&quot;)
               <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get token id" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -2291,12 +2291,12 @@ vars.put(&apos;token_id&apos;, last.tokenId);</stringProp>
                 <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               </JSONPostProcessor>
               <hashTree/>
-              <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+              <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Token associate result update" enabled="true">
                 <stringProp name="scriptLanguage">javascript</stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="filename"></stringProp>
                 <stringProp name="cacheKey">true</stringProp>
-                <stringProp name="script">var result = JSON.parse(vars.get(&quot;associateStatus&quot;))
+                <stringProp name="script">var result = vars.get(&quot;associateStatus&quot;)
 
 if (result!=&quot;&quot;)
 	vars.put(&apos;associateStatus&apos;, &apos;DONE&apos;)</stringProp>
@@ -2455,12 +2455,12 @@ if (result!=&quot;&quot;)
                 <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
               </JSONPostProcessor>
               <hashTree/>
-              <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+              <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="KYC grant result update" enabled="true">
                 <stringProp name="scriptLanguage">javascript</stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="filename"></stringProp>
                 <stringProp name="cacheKey">true</stringProp>
-                <stringProp name="script">var result = JSON.parse(vars.get(&quot;kycGrantStatus&quot;))
+                <stringProp name="script">var result = vars.get(&quot;kycGrantStatus&quot;)
 
 if (result!=&quot;&quot;)
 	vars.put(&apos;kycGrantStatus&apos;, &apos;DONE&apos;)</stringProp>
@@ -2752,7 +2752,7 @@ if (result!=&quot;&quot;)
               <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get app schema data" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -2976,19 +2976,6 @@ vars.put(&apos;app_schema_field3_type&apos;, schema.fields[3].context.type)</str
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="script">var doc = JSON.parse(vars.get(&quot;appData&quot;))
-doc.option.status = &quot;Approved&quot;
-vars.put(&apos;appDataBody&apos;, JSON.stringify({
-    document: doc, 
-    tag: &quot;Option_0&quot;
-}));</stringProp>
-            <stringProp name="scriptLanguage">javascript</stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Approve application" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -3014,7 +3001,21 @@ vars.put(&apos;appDataBody&apos;, JSON.stringify({
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
-          <hashTree/>
+          <hashTree>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Role document generation" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">var doc = JSON.parse(vars.get(&quot;appData&quot;))
+doc.option.status = &quot;Approved&quot;
+vars.put(&apos;appDataBody&apos;, JSON.stringify({
+    document: doc, 
+    tag: &quot;Option_0&quot;
+}));</stringProp>
+              <stringProp name="scriptLanguage">javascript</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
+          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Get result for app approve" enabled="true">
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -3093,8 +3094,8 @@ vars.put(&apos;appDataBody&apos;, JSON.stringify({
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
-                  <stringProp name="scriptLanguage">groovy</stringProp>
+                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get compare result" enabled="true">
+                  <stringProp name="scriptLanguage">javascript</stringProp>
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="filename"></stringProp>
                   <stringProp name="cacheKey">true</stringProp>
@@ -3191,7 +3192,7 @@ vars.put(&apos;compareResult&apos;, obj)</stringProp>
               <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get device schema data" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -3214,11 +3215,37 @@ vars.put(&apos;device_schema_field5_type&apos;, schema.fields[5].context.type)</
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="script">var device_preset = vars.get(&apos;device_preset&apos;)
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create device" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${device_body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/create_device_form/blocks</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Device documentn generation" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">var device_preset = vars.get(&apos;device_preset&apos;)
 var preset = JSON.parse(device_preset)
 var device_presetFields = vars.get(&apos;device_presetFields&apos;)
 var presetFields = JSON.parse(device_presetFields)
@@ -3325,35 +3352,10 @@ for(var i = 0; i&lt; presetFields.length; i++) {
 }
 vars.put(&apos;device_body&apos;, JSON.stringify(body));
 </stringProp>
-            <stringProp name="scriptLanguage">js</stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create device" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${device_body}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain"></stringProp>
-            <stringProp name="HTTPSampler.port"></stringProp>
-            <stringProp name="HTTPSampler.protocol"></stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/create_device_form/blocks</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
+              <stringProp name="scriptLanguage">js</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
+          </hashTree>
           <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While device creation" enabled="true">
             <stringProp name="WhileController.condition">${__javaScript(&quot;${devCreationStatus}&quot; != &quot;Waiting for approval&quot;,)}</stringProp>
           </WhileController>
@@ -3468,7 +3470,7 @@ vars.put(&apos;device_body&apos;, JSON.stringify(body));
               <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get device row" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -3479,20 +3481,6 @@ vars.put(&apos;device_row&apos;, JSON.stringify(rows[rows.length-1]))</stringPro
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="script">var row = vars.get(&apos;device_row&apos;)
-var doc = JSON.parse(row)
-doc.option.status = &quot;Approved&quot;
-vars.put(&apos;device_row_body&apos;, JSON.stringify({
-    document: doc, 
-    tag: &quot;Option_0&quot;
-}));</stringProp>
-            <stringProp name="scriptLanguage">javascript</stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Approve device" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -3518,7 +3506,22 @@ vars.put(&apos;device_row_body&apos;, JSON.stringify({
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
-          <hashTree/>
+          <hashTree>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Document generation" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">var row = vars.get(&apos;device_row&apos;)
+var doc = JSON.parse(row)
+doc.option.status = &quot;Approved&quot;
+vars.put(&apos;device_row_body&apos;, JSON.stringify({
+    document: doc, 
+    tag: &quot;Option_0&quot;
+}));</stringProp>
+              <stringProp name="scriptLanguage">javascript</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
+          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Get result for device approve" enabled="true">
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -3685,7 +3688,7 @@ vars.put(&apos;device_row_body&apos;, JSON.stringify({
               <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get issue row" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -3721,7 +3724,7 @@ vars.put(&apos;device_issue_row&apos;, JSON.stringify(obj.data[obj.data.length-1
               <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get issue schema" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -3745,11 +3748,37 @@ vars.put(&apos;issue_schema_field3_type&apos;, schema.fields[3].context.type)
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="script">var mrvValue = 1000;
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Approve device" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${issue_body}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/create_issue_request_form/blocks</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Issue generation" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">var mrvValue = 1000;
 
 var username = vars.get(&apos;user_username&apos;)
 var hederaAccountId = vars.get(&apos;user_hedera_id&apos;)
@@ -3843,35 +3872,10 @@ for(var i = 0; i&lt; presetFields.length; i++) {
 }
 vars.put(&apos;issue_body&apos;, JSON.stringify(body));
 </stringProp>
-            <stringProp name="scriptLanguage">javascript</stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Approve device" enabled="true">
-            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${issue_body}</stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                </elementProp>
-              </collectionProp>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain"></stringProp>
-            <stringProp name="HTTPSampler.port"></stringProp>
-            <stringProp name="HTTPSampler.protocol"></stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/create_issue_request_form/blocks</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree/>
+              <stringProp name="scriptLanguage">javascript</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
+          </hashTree>
           <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While issue request creation" enabled="true">
             <stringProp name="WhileController.condition">${__javaScript(&quot;${IRCreationStatus}&quot; != &quot;Waiting for approval&quot;,)}</stringProp>
           </WhileController>
@@ -3986,7 +3990,7 @@ vars.put(&apos;issue_body&apos;, JSON.stringify(body));
               <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+            <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get issue row" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
@@ -3997,20 +4001,6 @@ vars.put(&apos;issue_row&apos;, JSON.stringify(rows[rows.length-1]))</stringProp
             </JSR223PostProcessor>
             <hashTree/>
           </hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
-            <stringProp name="cacheKey">true</stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="script">var row = vars.get(&apos;issue_row&apos;)
-var doc = JSON.parse(row)
-doc.option.status = &quot;Approved&quot;
-vars.put(&apos;issue_row_body&apos;, JSON.stringify({
-    document: doc, 
-    tag: &quot;Option_0&quot;
-}));</stringProp>
-            <stringProp name="scriptLanguage">javascript</stringProp>
-          </JSR223PreProcessor>
-          <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Approve device" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -4036,7 +4026,22 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
-          <hashTree/>
+          <hashTree>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Issue documant generation" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">var row = vars.get(&apos;issue_row&apos;)
+var doc = JSON.parse(row)
+doc.option.status = &quot;Approved&quot;
+vars.put(&apos;issue_row_body&apos;, JSON.stringify({
+    document: doc, 
+    tag: &quot;Option_0&quot;
+}));</stringProp>
+              <stringProp name="scriptLanguage">javascript</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
+          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Get result for issue request approve" enabled="true">
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
@@ -4211,7 +4216,7 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
                 <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
               </JSONPostProcessor>
               <hashTree/>
-              <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
+              <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get balance" enabled="true">
                 <stringProp name="scriptLanguage">javascript</stringProp>
                 <stringProp name="parameters"></stringProp>
                 <stringProp name="filename"></stringProp>
@@ -4229,7 +4234,7 @@ vars.put(&apos;balance&apos;, balance)</stringProp>
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users deletion" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users deletion" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
