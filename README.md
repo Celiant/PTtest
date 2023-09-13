@@ -59,7 +59,9 @@ short workflow for IREC-7 policy:
 
 5. Install "Custom Thread Groups" plugin by JMeter Plugins Manager. There is should be found by UI in Apache JMeter: Options->Plugins Managers->Available Plugins
 
-6. Install "WebSocket Samplers by Peter Doornbosch" plugin by JMeter Plugins Manager. There is should be found by UI in Apache JMeter: Options->Plugins Managers->Available Plugins
+6. Install "WebSocket Samplers by Peter Doornbch" plugin by JMeter Plugins Manager. There is should be found by UI in Apache JMeter: Options->Plugins Managers->Available Plugins
+
+7. Change Guardian's port number in "User Defined Variables". If Open Source project built by docker - need to enter 3000, for case when project built by yarn - need to enter 4200.
 
 ## Usage Short Flow
 ### Pre-requests
@@ -67,8 +69,8 @@ short workflow for IREC-7 policy:
 
 3. Open test for short flow: File-Open-{path-to-repo}/PT/ShortFlow.jmx
 
-4. Some operations requires hedera tokens. In case with low balance on hedera account to execute tests correctly need to change hedera account on OS Guardian. To fix INSUFFICIENT_PAYER_BALANCE error change hedera account on OS Guardian:
-- Login by OS
+4. Some operations requires hedera tokens. In case with low balance on hedera account to execute tests correctly need to change hedera account on Guardian Open Sourse. To fix INSUFFICIENT_PAYER_BALANCE error change hedera account on Guardian Open Sourse:
+- Login on Guardian Open Sourse
 - Click on Administration
 - Click on Settings
 - Fill new variables(Hedera key, id, IPFS)
@@ -108,8 +110,8 @@ After the step, need to click on "Summary Report" to see results(requests, respo
 
 2. Open test for full flow: File-Open-{path-to-repo}/PT/FullFlow.jmx
 
-4. Some operations requires hedera tokens. In case with low balance on hedera account to execute tests correctly need to change hedera account on OS Guardian. To fix INSUFFICIENT_PAYER_BALANCE error change hedera account on OS Guardian:
-- Login by OS
+4. Some operations requires hedera tokens. In case with low balance on hedera account to execute tests correctly need to change hedera account on Guardian Open Sourse. To fix INSUFFICIENT_PAYER_BALANCE error change hedera account on Guardian Open Sourse:
+- Login by Guardian Open Sourse
 - Click on Administration
 - Click on Settings
 - Fill new variables(Hedera key, id, IPFS)
