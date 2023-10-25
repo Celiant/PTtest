@@ -94,11 +94,11 @@
         <collectionProp name="HeaderManager.headers">
           <elementProp name="Content-Type" elementType="Header">
             <stringProp name="Header.name">Content-Type</stringProp>
-            <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
           </elementProp>
           <elementProp name="Accept" elementType="Header">
             <stringProp name="Header.name">Accept</stringProp>
-            <stringProp name="Header.value">application/json, text/plain, */*</stringProp>
+            <stringProp name="Header.value">*/*</stringProp>
           </elementProp>
         </collectionProp>
       </HeaderManager>
@@ -175,7 +175,7 @@
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${adminAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${adminAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -301,7 +301,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${adminAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${adminAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -455,7 +455,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${adminAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${adminAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -614,7 +614,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${OSSRaccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${OSSRaccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -744,33 +744,19 @@
                     <stringProp name="parameters"></stringProp>
                     <stringProp name="filename"></stringProp>
                     <stringProp name="cacheKey">true</stringProp>
-                    <stringProp name="script">var result = JSON.parse(vars.get(&quot;operationStatusSR&quot;))
+                    <stringProp name="script">var result = vars.get(&quot;operationStatusSR&quot;)
 
 if (result!=&quot;&quot;)
 	vars.put(&apos;operationStatusSR&apos;, &apos;DONE&apos;)</stringProp>
                   </JSR223PostProcessor>
                   <hashTree/>
-                  <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Get error if exists" enabled="true">
-                    <stringProp name="JSONPostProcessor.referenceNames">operationStatusSRError</stringProp>
-                    <stringProp name="JSONPostProcessor.jsonPathExprs">$..error.code</stringProp>
-                    <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-                    <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
-                  </JSONPostProcessor>
-                  <hashTree/>
-                </hashTree>
-                <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Error checking" enabled="true">
-                  <stringProp name="IfController.condition">${__javaScript(&quot;${operationStatusSRError}&quot; == 500],)}</stringProp>
-                  <boolProp name="IfController.evaluateAll">false</boolProp>
-                  <boolProp name="IfController.useExpression">true</boolProp>
-                </IfController>
-                <hashTree>
-                  <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Error checking" enabled="true">
-                    <stringProp name="JSON_PATH">$..error</stringProp>
-                    <stringProp name="EXPECTED_VALUE">500</stringProp>
-                    <boolProp name="JSONVALIDATION">true</boolProp>
+                  <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Getting error" enabled="true">
+                    <stringProp name="JSON_PATH">$..error.code</stringProp>
+                    <stringProp name="EXPECTED_VALUE"></stringProp>
+                    <boolProp name="JSONVALIDATION">false</boolProp>
                     <boolProp name="EXPECT_NULL">false</boolProp>
                     <boolProp name="INVERT">true</boolProp>
-                    <boolProp name="ISREGEX">false</boolProp>
+                    <boolProp name="ISREGEX">true</boolProp>
                   </JSONPathAssertion>
                   <hashTree/>
                 </hashTree>
@@ -861,6 +847,15 @@ if (result!=&quot;&quot;)
                 <stringProp name="readTimeout">6000</stringProp>
               </eu.luminis.jmeter.wssampler.OpenWebSocketSampler>
               <hashTree/>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="SR auth" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="authorization" elementType="Header">
+                    <stringProp name="Header.name">authorization</stringProp>
+                    <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Link SR profile" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -902,7 +897,7 @@ if (result!=&quot;&quot;)
                   <collectionProp name="HeaderManager.headers">
                     <elementProp name="authorization" elementType="Header">
                       <stringProp name="Header.name">authorization</stringProp>
-                      <stringProp name="Header.value">bearer ${SRAccessToken}</stringProp>
+                      <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
                     </elementProp>
                   </collectionProp>
                 </HeaderManager>
@@ -1115,7 +1110,7 @@ if (result!=&quot;&quot;)
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${OSSRaccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${OSSRaccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -1365,7 +1360,7 @@ if (result!=&quot;&quot;)
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -1651,7 +1646,7 @@ if (result!=&quot;&quot;)
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${adminAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${adminAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -1734,7 +1729,7 @@ if (result!=&quot;&quot;)
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${SRAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -1956,7 +1951,7 @@ if (result!=&quot;&quot;)
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${SRAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -2148,7 +2143,7 @@ if (result!=&quot;&quot;)
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -2349,7 +2344,7 @@ if (result!=&quot;&quot;)
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${SRAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -2514,7 +2509,7 @@ if (result!=&quot;&quot;)
             <collectionProp name="HeaderManager.headers">
               <elementProp name="authorization" elementType="Header">
                 <stringProp name="Header.name">authorization</stringProp>
-                <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
@@ -2669,7 +2664,7 @@ if (result!=&quot;&quot;)
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -2920,7 +2915,7 @@ vars.put(&apos;app_schema_field3_type&apos;, schema.fields[3].context.type)</str
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${SRAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -3038,7 +3033,7 @@ vars.put(&apos;appDataBody&apos;, JSON.stringify({
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -3137,7 +3132,7 @@ vars.put(&apos;compareResult&apos;, obj)</stringProp>
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -3415,7 +3410,7 @@ vars.put(&apos;device_body&apos;, JSON.stringify(body));
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${SRAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -3544,7 +3539,7 @@ vars.put(&apos;device_row_body&apos;, JSON.stringify({
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -3633,7 +3628,7 @@ vars.put(&apos;device_row_body&apos;, JSON.stringify({
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -3935,7 +3930,7 @@ vars.put(&apos;issue_body&apos;, JSON.stringify(body));
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${SRAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${SRAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -4064,7 +4059,7 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
@@ -4153,7 +4148,7 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${userAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${userAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -4263,7 +4258,7 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
               <collectionProp name="HeaderManager.headers">
                 <elementProp name="authorization" elementType="Header">
                   <stringProp name="Header.name">authorization</stringProp>
-                  <stringProp name="Header.value">bearer ${adminAccessToken}</stringProp>
+                  <stringProp name="Header.value">Bearer ${adminAccessToken}</stringProp>
                 </elementProp>
               </collectionProp>
             </HeaderManager>
@@ -4327,7 +4322,7 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
           </hashTree>
         </hashTree>
       </hashTree>
-      <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="false">
+      <DebugPostProcessor guiclass="TestBeanGUI" testclass="DebugPostProcessor" testname="Debug PostProcessor" enabled="true">
         <boolProp name="displayJMeterProperties">false</boolProp>
         <boolProp name="displayJMeterVariables">true</boolProp>
         <boolProp name="displaySamplerProperties">false</boolProp>
@@ -4408,7 +4403,7 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
