@@ -27,6 +27,18 @@ short workflow for IREC-7 policy:
 - Create and approve issue
 - Verify balance increase
 
+view workflow for IREC-7 policy:
+- Create and approve issue
+- Verify balance increase
+- Policy list viewing and verifying
+- Token list viewing and verifying
+- Profile viewing and verifying
+
+dry workflow for IREC-7 policy:
+- Import policy
+- Publish policy
+- Dry run policy
+
 
 ## Navigation
 
@@ -128,6 +140,80 @@ After the step, need to click on "Summary Report" to see results(requests, respo
 
 ### Run tests by UI
 1. Turn on "Flow for tenant creation", "Full flow for N users" and "Flow for tenant deletion".
+
+2. Click on "Start" button
+
+### Report Generation
+1. Click Tools-Generate HTML Report
+
+2. Check that {path-to-repo}/results/report is empty.
+
+3. Fill "Results file"({path-to-repo}/results/result.csv), "Output directory"({path-to-repo}/results/report), "user.properties file({path-to-apache-jmeter}/bin/user.properties)" and generate report.
+
+4. Open 
+{path-to-repo}/results/report/index.html
+
+## Usage View Flow
+### Pre-requests
+1. Open Apache-jmeter: execute {path-to-apache-jmeter}/bin/ApacheJMeter.jar
+
+2. Open test for full flow: File-Open-{path-to-repo}/PT/ViewFlow.jmx
+
+4. Some operations requires hedera tokens. In case with low balance on hedera account to execute tests correctly need to change hedera account on Guardian Open Sourse. To fix INSUFFICIENT_PAYER_BALANCE error change hedera account on Guardian Open Sourse:
+- Login by Guardian Open Sourse
+- Click on Administration
+- Click on Settings
+- Fill new variables(Hedera key, id, IPFS)
+
+### Configure tests options
+1. To configure thread options(number of users, ramp-up time) need to change same properties on "View Flow" thread group. For example, 10 users and 150 seconds ramp-up time: test will mint 10 tokens and view lists and profiles for each user. Each user will start for 15(150\10) seconds later than previous user.
+
+2. There is limit of number of users. To increase max number need to add usernames and passwords to userdata.csv file. Limit number equals number of rows in this .csv.
+
+3. To debug test need to turn on "Debug PostProcessor"(allows to read variables), "Summary Report" and "View Results Tree"(allows to read list of executed requests).
+After the step, need to click on "Summary Report" to see results(requests, response, bodies and headers, variables). "View Results Tree" shows some metrics and general information about execution.
+
+4. To pre-configure test for report generation need to turn on "Aggregate Report".
+
+### Run tests by UI
+1. Turn on "View Flow".
+
+2. Click on "Start" button
+
+### Report Generation
+1. Click Tools-Generate HTML Report
+
+2. Check that {path-to-repo}/results/report is empty.
+
+3. Fill "Results file"({path-to-repo}/results/result.csv), "Output directory"({path-to-repo}/results/report), "user.properties file({path-to-apache-jmeter}/bin/user.properties)" and generate report.
+
+4. Open 
+{path-to-repo}/results/report/index.html
+
+## Usage Dry run Flow
+### Pre-requests
+1. Open Apache-jmeter: execute {path-to-apache-jmeter}/bin/ApacheJMeter.jar
+
+2. Open test for full flow: File-Open-{path-to-repo}/PT/FullFlow.jmx
+
+4. Some operations requires hedera tokens. In case with low balance on hedera account to execute tests correctly need to change hedera account on Guardian Open Sourse. To fix INSUFFICIENT_PAYER_BALANCE error change hedera account on Guardian Open Sourse:
+- Login by Guardian Open Sourse
+- Click on Administration
+- Click on Settings
+- Fill new variables(Hedera key, id, IPFS)
+
+### Configure tests options
+1. To configure thread options(number of users, ramp-up time) need to change same properties on "Full flow for N users" thread group. For example, 10 users and 150 seconds ramp-up time: test will create 10 SRs, 10 users, 10 policies and move it to "Dry Run" status. Each user will start for 15(150\10) seconds later than previous user.
+
+2. There is limit of number of users. To increase max number need to add usernames and passwords to userdata.csv file. Limit number equals number of rows in this .csv.
+
+3. To debug test need to turn on "Debug PostProcessor"(allows to read variables), "Summary Report" and "View Results Tree"(allows to read list of executed requests).
+After the step, need to click on "Summary Report" to see results(requests, response, bodies and headers, variables). "View Results Tree" shows some metrics and general information about execution.
+
+4. To pre-configure test for report generation need to turn on "Aggregate Report".
+
+### Run tests by UI
+1. Turn on "Policy workflow".
 
 2. Click on "Start" button
 
