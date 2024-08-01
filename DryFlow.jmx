@@ -65,7 +65,17 @@
           </elementProp>
           <elementProp name="PORT" elementType="Argument">
             <stringProp name="Argument.name">PORT</stringProp>
-            <stringProp name="Argument.value">3000</stringProp>
+            <stringProp name="Argument.value">4200</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PORT_OS_WS" elementType="Argument">
+            <stringProp name="Argument.name">PORT_OS_WS</stringProp>
+            <stringProp name="Argument.value">3002</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PORT_MGS_WS" elementType="Argument">
+            <stringProp name="Argument.name">PORT_MGS_WS</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -89,7 +99,7 @@
         <collectionProp name="HeaderManager.headers">
           <elementProp name="Content-Type" elementType="Header">
             <stringProp name="Header.name">Content-Type</stringProp>
-            <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
           </elementProp>
           <elementProp name="Accept" elementType="Header">
             <stringProp name="Header.name">Accept</stringProp>
@@ -116,14 +126,14 @@
         <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
       </CookieManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create OS SR" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create OS SR" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">20</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">200</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -149,7 +159,7 @@
           <stringProp name="HTTPSampler.domain">${OS}</stringProp>
           <stringProp name="HTTPSampler.port">${PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${PROTOCOL_OS}</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
           <stringProp name="HTTPSampler.path">api/v1/accounts/register</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -306,6 +316,36 @@
               </JSONPostProcessor>
               <hashTree/>
             </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Setup ipfs" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;ipfsSettings&quot;: {&#xd;
+    &quot;provider&quot;: &quot;local&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">api/v1/settings/tenant/${tenantId}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
           </hashTree>
         </hashTree>
       </hashTree>
@@ -811,7 +851,7 @@
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr key gen" enabled="true">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
-                <stringProp name="port">3000</stringProp>
+                <stringProp name="port">${PORT_OS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${OSSRAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">10000</stringProp>
@@ -1073,7 +1113,7 @@ if (result!=&quot;&quot;)
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr link" enabled="true">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
-                <stringProp name="port">443</stringProp>
+                <stringProp name="port">${PORT_MGS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${SRAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">6000</stringProp>
@@ -1380,7 +1420,7 @@ if (result!=&quot;&quot;)
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user key gen" enabled="true">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
-                <stringProp name="port">3000</stringProp>
+                <stringProp name="port">${PORT_OS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${OSSRAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">6000</stringProp>
@@ -1642,7 +1682,7 @@ if (result!=&quot;&quot;)
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user link" enabled="true">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
-                <stringProp name="port">443</stringProp>
+                <stringProp name="port">${PORT_MGS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${userAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">10000</stringProp>
@@ -1873,14 +1913,14 @@ if (result!=&quot;&quot;)
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">30</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">300</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -2111,7 +2151,7 @@ if (result!=&quot;&quot;)
             <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for policy import" enabled="true">
               <boolProp name="TLS">true</boolProp>
               <stringProp name="server">dev.guardianservice.app</stringProp>
-              <stringProp name="port">443</stringProp>
+              <stringProp name="port">${PORT_MGS_WS}</stringProp>
               <stringProp name="path">/ws/?token=${SRAccessToken}</stringProp>
               <stringProp name="connectTimeout">300000</stringProp>
               <stringProp name="readTimeout">6000</stringProp>
@@ -2124,7 +2164,7 @@ if (result!=&quot;&quot;)
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-  &quot;messageId&quot;: &quot;1691048950.105389003&quot;&#xd;
+  &quot;messageId&quot;: &quot;1719317583.251104003&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -2653,7 +2693,7 @@ if (result!=&quot;&quot;)
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>

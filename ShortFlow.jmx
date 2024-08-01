@@ -65,7 +65,17 @@
           </elementProp>
           <elementProp name="PORT" elementType="Argument">
             <stringProp name="Argument.name">PORT</stringProp>
-            <stringProp name="Argument.value">3000</stringProp>
+            <stringProp name="Argument.value">4200</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PORT_OS_WS" elementType="Argument">
+            <stringProp name="Argument.name">PORT_OS_WS</stringProp>
+            <stringProp name="Argument.value">3002</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="PORT_MGS_WS" elementType="Argument">
+            <stringProp name="Argument.name">PORT_MGS_WS</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -89,7 +99,7 @@
         <collectionProp name="HeaderManager.headers">
           <elementProp name="Content-Type" elementType="Header">
             <stringProp name="Header.name">Content-Type</stringProp>
-            <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
           </elementProp>
           <elementProp name="Accept" elementType="Header">
             <stringProp name="Header.name">Accept</stringProp>
@@ -122,8 +132,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">20</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">20</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -149,7 +159,7 @@
           <stringProp name="HTTPSampler.domain">${OS}</stringProp>
           <stringProp name="HTTPSampler.port">${PORT}</stringProp>
           <stringProp name="HTTPSampler.protocol">${PROTOCOL_OS}</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
           <stringProp name="HTTPSampler.path">api/v1/accounts/register</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -162,7 +172,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tenant creation" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tenant creation" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -306,17 +316,47 @@
               </JSONPostProcessor>
               <hashTree/>
             </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Setup ipfs" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;ipfsSettings&quot;: {&#xd;
+    &quot;provider&quot;: &quot;local&quot;&#xd;
+  }&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">api/v1/settings/tenant/${tenantId}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users creation" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users creation" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">20</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">200</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -811,7 +851,7 @@
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr key gen" enabled="true">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
-                <stringProp name="port">3000</stringProp>
+                <stringProp name="port">${PORT_OS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${OSSRAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">10000</stringProp>
@@ -1073,7 +1113,7 @@ if (result!=&quot;&quot;)
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr link" enabled="true">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
-                <stringProp name="port">443</stringProp>
+                <stringProp name="port">${PORT_MGS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${SRAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">6000</stringProp>
@@ -1380,7 +1420,7 @@ if (result!=&quot;&quot;)
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user key gen" enabled="true">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
-                <stringProp name="port">3000</stringProp>
+                <stringProp name="port">${PORT_OS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${OSSRAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">6000</stringProp>
@@ -1642,7 +1682,7 @@ if (result!=&quot;&quot;)
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user link" enabled="true">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
-                <stringProp name="port">443</stringProp>
+                <stringProp name="port">${PORT_MGS_WS}</stringProp>
                 <stringProp name="path">/ws/?token=${userAccessToken}</stringProp>
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">10000</stringProp>
@@ -1879,8 +1919,8 @@ if (result!=&quot;&quot;)
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">20</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">200</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -2111,7 +2151,7 @@ if (result!=&quot;&quot;)
             <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for policy import" enabled="true">
               <boolProp name="TLS">true</boolProp>
               <stringProp name="server">dev.guardianservice.app</stringProp>
-              <stringProp name="port">443</stringProp>
+              <stringProp name="port">${PORT_MGS_WS}</stringProp>
               <stringProp name="path">/ws/?token=${SRAccessToken}</stringProp>
               <stringProp name="connectTimeout">300000</stringProp>
               <stringProp name="readTimeout">6000</stringProp>
@@ -2124,7 +2164,7 @@ if (result!=&quot;&quot;)
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-  &quot;messageId&quot;: &quot;1691048950.105389003&quot;&#xd;
+  &quot;messageId&quot;: &quot;1719317583.251104003&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -2376,7 +2416,7 @@ if (result!=&quot;&quot;)
             <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for policy publish" enabled="true">
               <boolProp name="TLS">true</boolProp>
               <stringProp name="server">dev.guardianservice.app</stringProp>
-              <stringProp name="port">443</stringProp>
+              <stringProp name="port">${PORT_MGS_WS}</stringProp>
               <stringProp name="path">/ws/?token=${SRAccessToken}</stringProp>
               <stringProp name="connectTimeout">300000</stringProp>
               <stringProp name="readTimeout">6000</stringProp>
@@ -2741,7 +2781,7 @@ vars.put(&apos;token_id&apos;, last.tokenId);</stringProp>
           <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for tokens associate" enabled="true">
             <boolProp name="TLS">true</boolProp>
             <stringProp name="server">dev.guardianservice.app</stringProp>
-            <stringProp name="port">443</stringProp>
+            <stringProp name="port">${PORT_MGS_WS}</stringProp>
             <stringProp name="path">/ws/?token=${userAccessToken}</stringProp>
             <stringProp name="connectTimeout">300000</stringProp>
             <stringProp name="readTimeout">6000</stringProp>
@@ -2961,7 +3001,7 @@ if (result!=&quot;&quot;)
           <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for kyc grant" enabled="true">
             <boolProp name="TLS">true</boolProp>
             <stringProp name="server">dev.guardianservice.app</stringProp>
-            <stringProp name="port">443</stringProp>
+            <stringProp name="port">${PORT_MGS_WS}</stringProp>
             <stringProp name="path">/ws/?token=${SRAccessToken}</stringProp>
             <stringProp name="connectTimeout">300000</stringProp>
             <stringProp name="readTimeout">6000</stringProp>
@@ -3541,13 +3581,7 @@ if (result!=&quot;&quot;)
 var schema = obj.schema
 
 vars.put(&apos;app_schema_context&apos;, schema.contextURL)
-vars.put(&apos;app_schema_type&apos;, schema.type)
-vars.put(&apos;app_schema_field1_context&apos;, schema.fields[1].context.context[0])
-vars.put(&apos;app_schema_field1_type&apos;, schema.fields[1].context.type)
-vars.put(&apos;app_schema_field2_context&apos;, schema.fields[2].context.context[0])
-vars.put(&apos;app_schema_field2_type&apos;, schema.fields[2].context.type)
-vars.put(&apos;app_schema_field3_context&apos;, schema.fields[3].context.context[0])
-vars.put(&apos;app_schema_field3_type&apos;, schema.fields[3].context.type)</stringProp>
+vars.put(&apos;app_schema_type&apos;, schema.type)</stringProp>
               <stringProp name="scriptLanguage">javascript</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
@@ -3828,7 +3862,7 @@ vars.put(&apos;app_schema_field3_type&apos;, schema.fields[3].context.type)</str
 doc.option.status = &quot;Approved&quot;
 vars.put(&apos;appDataBody&apos;, JSON.stringify({
     document: doc, 
-    tag: &quot;Option_0&quot;
+    tag: &quot;Button_0&quot;
 }));</stringProp>
               <stringProp name="scriptLanguage">javascript</stringProp>
             </JSR223PreProcessor>
@@ -3923,7 +3957,7 @@ vars.put(&apos;appDataBody&apos;, JSON.stringify({
             </HeaderManager>
             <hashTree/>
             <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While approve waiting" enabled="true">
-              <stringProp name="WhileController.condition">${__javaScript(&quot;${appApproveResult}&quot; != &quot;false&quot;,)}</stringProp>
+              <stringProp name="WhileController.condition">${__javaScript(&quot;${viewH}&quot; != &quot;Device Name&quot;,)}</stringProp>
             </WhileController>
             <hashTree>
               <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
@@ -3949,19 +3983,9 @@ vars.put(&apos;appDataBody&apos;, JSON.stringify({
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Get compare result" enabled="true">
-                  <stringProp name="scriptLanguage">javascript</stringProp>
-                  <stringProp name="parameters"></stringProp>
-                  <stringProp name="filename"></stringProp>
-                  <stringProp name="cacheKey">true</stringProp>
-                  <stringProp name="script">var obj = &quot;${appApproveResult}&quot; != &quot;false&quot;
-
-vars.put(&apos;compareResult&apos;, obj)</stringProp>
-                </JSR223PostProcessor>
-                <hashTree/>
                 <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Get approve result" enabled="true">
-                  <stringProp name="JSONPostProcessor.referenceNames">appApproveResult</stringProp>
-                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.viewHistory</stringProp>
+                  <stringProp name="JSONPostProcessor.referenceNames">viewH</stringProp>
+                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.fields[0].title</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                 </JSONPostProcessor>
@@ -4096,13 +4120,7 @@ var presetFields = obj.presetFields
 vars.put(&apos;device_preset&apos;, JSON.stringify(preset))
 vars.put(&apos;device_presetFields&apos;, JSON.stringify(presetFields))
 vars.put(&apos;device_schema_context&apos;, schema.contextURL)
-vars.put(&apos;device_schema_type&apos;, schema.type)
-vars.put(&apos;device_schema_field3_context&apos;, schema.fields[3].context.context)
-vars.put(&apos;device_schema_field3_type&apos;, schema.fields[3].context.type)
-vars.put(&apos;device_schema_field4_context&apos;, schema.fields[4].context.context)
-vars.put(&apos;device_schema_field4_type&apos;, schema.fields[4].context.type)
-vars.put(&apos;device_schema_field5_context&apos;, schema.fields[5].context.context)
-vars.put(&apos;device_schema_field5_type&apos;, schema.fields[5].context.type)</stringProp>
+vars.put(&apos;device_schema_type&apos;, schema.type)</stringProp>
               <stringProp name="scriptLanguage">javascript</stringProp>
             </JSR223PostProcessor>
             <hashTree/>
@@ -4445,7 +4463,7 @@ var doc = JSON.parse(row)
 doc.option.status = &quot;Approved&quot;
 vars.put(&apos;device_row_body&apos;, JSON.stringify({
     document: doc, 
-    tag: &quot;Option_0&quot;
+    tag: &quot;Button_0&quot;
 }));</stringProp>
               <stringProp name="scriptLanguage">javascript</stringProp>
             </JSR223PreProcessor>
@@ -4742,10 +4760,6 @@ var presetFields = obj.presetFields
 vars.put(&apos;issue_presetFields&apos;, JSON.stringify(presetFields))
 vars.put(&apos;issue_schema_context&apos;, schema.contextURL)
 vars.put(&apos;issue_schema_type&apos;, schema.type)
-vars.put(&apos;issue_schema_field2_context&apos;, schema.fields[2].context.context)
-vars.put(&apos;issue_schema_field2_type&apos;, schema.fields[2].context.type)
-vars.put(&apos;issue_schema_field3_context&apos;, schema.fields[3].context.context)
-vars.put(&apos;issue_schema_field3_type&apos;, schema.fields[3].context.type)
 </stringProp>
               <stringProp name="scriptLanguage">javascript</stringProp>
             </JSR223PostProcessor>
@@ -4781,7 +4795,7 @@ vars.put(&apos;issue_schema_field3_type&apos;, schema.fields[3].context.type)
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
-              <stringProp name="script">var mrvValue = 1000;
+              <stringProp name="script">var mrvValue = 1;
 
 var username = vars.get(&apos;user_username&apos;)
 var hederaAccountId = vars.get(&apos;user_hedera_id&apos;)
@@ -4789,40 +4803,14 @@ var issue_preset = vars.get(&apos;issue_preset&apos;)
 var preset = JSON.parse(issue_preset)
 var issue_presetFields = vars.get(&apos;issue_presetFields&apos;)
 var presetFields = JSON.parse(issue_presetFields)
-var issue_schema_context = vars.get(&apos;issue_schema_context&apos;)
-var issue_schema_type = vars.get(&apos;issue_schema_type&apos;)
-var issue_schema_field2_context = vars.get(&apos;issue_schema_field2_context&apos;)
-var issue_schema_field2_type = vars.get(&apos;issue_schema_field2_type&apos;)
-var issue_schema_field3_context = vars.get(&apos;issue_schema_field3_context&apos;)
-var issue_schema_field3_type = vars.get(&apos;issue_schema_field3_type&apos;)
 
 var body = {
     &quot;document&quot;: {
-        &quot;type&quot;: issue_schema_type,
-        &quot;@context&quot;: [
-            issue_schema_context
-        ],
-        &quot;field2&quot;: {
-            &quot;type&quot;: issue_schema_field2_type,
-            &quot;@context&quot;: issue_schema_field2_context
-        },
-        &quot;field3&quot;: {
-            &quot;type&quot;: issue_schema_field3_type,
-            &quot;@context&quot;: issue_schema_field3_context
-        },
         &quot;field4&quot;: &quot;labeling scheme(s)&quot;,
         &quot;field5&quot;: &quot;2022-05-01&quot;,
         &quot;field6&quot;: &quot;2022-05-01&quot;,
-        &quot;field7&quot;: mrvValue,
+        &quot;field7&quot;: 1,
         &quot;field8&quot;: &quot;2022-05-31&quot;,
-        &quot;field9&quot;: 1,
-        &quot;field10&quot;: &quot;Type a: Settlement Metering data&quot;,
-        &quot;field11&quot;: &quot;Type b: Non-settlement Metering data&quot;,
-        &quot;field12&quot;: &quot;Type c: Measured Volume Transfer documentation&quot;,
-        &quot;field13&quot;: &quot;Type d: Other&quot;,
-        &quot;field14&quot;: true,
-        &quot;field15&quot;: true,
-        &quot;field16&quot;: true,
         &quot;field17&quot;: &quot;zmjoore4&quot;,
         &quot;field18&quot;: &quot;0.0.34743908&quot;,
     },
@@ -5076,7 +5064,7 @@ var doc = JSON.parse(row)
 doc.option.status = &quot;Approved&quot;
 vars.put(&apos;issue_row_body&apos;, JSON.stringify({
     document: doc, 
-    tag: &quot;Option_0&quot;
+    tag: &quot;Button_0&quot;
 }));</stringProp>
               <stringProp name="scriptLanguage">javascript</stringProp>
             </JSR223PreProcessor>
@@ -5595,7 +5583,7 @@ vars.put(&apos;balance&apos;, balance)</stringProp>
         <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="false">
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>
