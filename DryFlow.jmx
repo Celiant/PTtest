@@ -25,7 +25,7 @@
           </elementProp>
           <elementProp name="ADMIN_NAME" elementType="Argument">
             <stringProp name="Argument.name">ADMIN_NAME</stringProp>
-            <stringProp name="Argument.value">mjzs91xq</stringProp>
+            <stringProp name="Argument.value">mjzs91xq2</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="ADMIN_PASS" elementType="Argument">
@@ -126,7 +126,7 @@
         <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
       </CookieManager>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create OS SR" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create OS SR" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -172,7 +172,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tenant creation" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Tenant creation" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -287,7 +287,10 @@
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
   &quot;tenantName&quot;: &quot;${TENANT_NAME}&quot;,&#xd;
-  &quot;network&quot;: &quot;testnet&quot;&#xd;
+  &quot;network&quot;: &quot;testnet&quot;,&#xd;
+  &quot;ipfsSettings&quot;: {&#xd;
+    &quot;provider&quot;: &quot;local&quot;&#xd;
+  }&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -349,7 +352,7 @@
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users creation" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users creation" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -462,8 +465,19 @@
               </HeaderManager>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get tenant id" enabled="true">
-                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                  <collectionProp name="Arguments.arguments"/>
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">{&#xd;
+  &quot;pageSize&quot;: 10,&#xd;
+  &quot;pageIndex&quot;: 0,&#xd;
+  &quot;sortDirection&quot;: &quot;desc&quot;&#xd;
+}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
@@ -497,7 +511,8 @@
                       <stringProp name="Argument.value">{&#xd;
   &quot;tenantId&quot;: &quot;${tenantId}&quot;,&#xd;
   &quot;email&quot;: &quot;${EMAIL}&quot;,  &#xd;
-  &quot;returnInviteCode&quot;: true&#xd;
+  &quot;returnInviteCode&quot;: true,&#xd;
+  &quot;role&quot;:&quot;STANDARD_REGISTRY&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -533,16 +548,15 @@
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
-    &quot;username&quot;:&quot;${sr_username}&quot;,&#xd;
-    &quot;password&quot;:&quot;${sr_pass}&quot;,&#xd;
-    &quot;password_confirmation&quot;:&quot;${sr_pass}&quot;,&#xd;
-    &quot;role&quot;:&quot;STANDARD_REGISTRY&quot;,&#xd;
-    &quot;inviteId&quot;:&quot;${srInviteId}&quot;,&#xd;
-    &quot;terms&quot;:&#xd;
-    {&#xd;
-  	&quot;name&quot;: &quot;MGS.v1&quot;,&#xd;
-  	&quot;accepted&quot;: true&#xd;
-    }&#xd;
+  &quot;username&quot;: &quot;${sr_username}&quot;,&#xd;
+  &quot;password&quot;: &quot;${sr_pass}&quot;,&#xd;
+  &quot;password_confirmation&quot;: &quot;${sr_pass}&quot;,&#xd;
+  &quot;role&quot;: &quot;STANDARD_REGISTRY&quot;,&#xd;
+  &quot;inviteId&quot;: &quot;${srInviteId}&quot;,&#xd;
+  &quot;terms&quot;: {&#xd;
+    &quot;name&quot;: &quot;MGS.v1&quot;,&#xd;
+    &quot;accepted&quot;: true&#xd;
+  }&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -653,8 +667,19 @@
               </HeaderManager>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get tenant id" enabled="true">
-                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                  <collectionProp name="Arguments.arguments"/>
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">{&#xd;
+  &quot;pageSize&quot;: 10,&#xd;
+  &quot;pageIndex&quot;: 0,&#xd;
+  &quot;sortDirection&quot;: &quot;desc&quot;&#xd;
+}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
                 </elementProp>
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
@@ -729,11 +754,10 @@
     &quot;password_confirmation&quot;:&quot;${user_pass}&quot;,&#xd;
     &quot;role&quot;:&quot;USER&quot;,&#xd;
     &quot;inviteId&quot;:&quot;${userInviteId}&quot;,&#xd;
-    &quot;terms&quot;:&#xd;
-    {&#xd;
-  	&quot;name&quot;: &quot;MGS.v1&quot;,&#xd;
-  	&quot;accepted&quot;: true&#xd;
-    }&#xd;
+    &quot;terms&quot;: {&#xd;
+      &quot;name&quot;: &quot;MGS.v1&quot;,&#xd;
+      &quot;accepted&quot;: true&#xd;
+  }&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -1110,6 +1134,34 @@ if (result!=&quot;&quot;)
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Agree terms" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">{&#xd;
+  &quot;terms&quot;: &quot;MGS.v1&quot;&#xd;
+}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain"></stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">api/v1/accounts/terms/agree</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr link" enabled="true">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
@@ -1128,14 +1180,27 @@ if (result!=&quot;&quot;)
                       <stringProp name="Argument.value">{&#xd;
   &quot;hederaAccountId&quot;: &quot;${sr_hedera_id}&quot;,&#xd;
   &quot;hederaAccountKey&quot;: &quot;${sr_hedera_key}&quot;,&#xd;
-  &quot;secret&quot;: &quot;&quot;,&#xd;
+  &quot;secret&quot;: null,&#xd;
   &quot;vcDocument&quot;: {&#xd;
-    &quot;geography&quot;: &quot;a&quot;,&#xd;
-    &quot;law&quot;: &quot;a&quot;,&#xd;
-    &quot;tags&quot;: &quot;a&quot;,&#xd;
-    &quot;type&quot;: &quot;StandardRegistry&quot;,&#xd;
-    &quot;@context&quot;: []&#xd;
-  }&#xd;
+    &quot;OrganizationName&quot;: &quot;g&quot;,&#xd;
+    &quot;AddressLine1&quot;: &quot;g&quot;,&#xd;
+    &quot;City&quot;: &quot;g&quot;,&#xd;
+    &quot;Country&quot;: &quot;g&quot;,&#xd;
+    &quot;PostalCode&quot;: &quot;y&quot;,&#xd;
+    &quot;Website&quot;: &quot;https://vfds.fds&quot;,&#xd;
+    &quot;Email&quot;: &quot;fdsf@fds.csda&quot;,&#xd;
+    &quot;Tags&quot;: &quot;fdsa&quot;,&#xd;
+    &quot;ISIC&quot;: &quot;dsaf&quot;&#xd;
+  },&#xd;
+  &quot;didDocument&quot;: null,&#xd;
+  &quot;useFireblocksSigning&quot;: false,&#xd;
+  &quot;fireblocksConfig&quot;: {&#xd;
+    &quot;fireBlocksVaultId&quot;: &quot;&quot;,&#xd;
+    &quot;fireBlocksAssetId&quot;: &quot;&quot;,&#xd;
+    &quot;fireBlocksApiKey&quot;: &quot;&quot;,&#xd;
+    &quot;fireBlocksPrivateiKey&quot;: &quot;&quot;&#xd;
+  },&#xd;
+  &quot;didKeys&quot;: []&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -1679,6 +1744,34 @@ if (result!=&quot;&quot;)
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Agree terms" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">{&#xd;
+  &quot;terms&quot;: &quot;MGS.v1&quot;&#xd;
+}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain"></stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">api/v1/accounts/terms/agree</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
               <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user link" enabled="true">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
@@ -1913,7 +2006,7 @@ if (result!=&quot;&quot;)
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -2028,8 +2121,19 @@ if (result!=&quot;&quot;)
           </HeaderManager>
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Tenant Id" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;pageSize&quot;: 10,&#xd;
+  &quot;pageIndex&quot;: 0,&#xd;
+  &quot;sortDirection&quot;: &quot;desc&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain"></stringProp>
             <stringProp name="HTTPSampler.port"></stringProp>
@@ -2326,7 +2430,7 @@ if (result!=&quot;&quot;)
             </hashTree>
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Requests for DryRun" enabled="true">
-            <boolProp name="TransactionController.parent">false</boolProp>
+            <boolProp name="TransactionController.parent">true</boolProp>
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
@@ -2414,8 +2518,17 @@ if (result!=&quot;&quot;)
             </HeaderManager>
             <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Dry Run Policy" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+	&quot;isValid&quot;:true&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.domain"></stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
@@ -2446,7 +2559,7 @@ if (result!=&quot;&quot;)
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users deletion" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users deletion" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -2554,8 +2667,19 @@ if (result!=&quot;&quot;)
             </HeaderManager>
             <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get tenant id" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;pageSize&quot;: 10,&#xd;
+  &quot;pageIndex&quot;: 0,&#xd;
+  &quot;sortDirection&quot;: &quot;desc&quot;&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
               </elementProp>
               <stringProp name="HTTPSampler.domain"></stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>

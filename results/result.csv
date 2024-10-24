@@ -1,0 +1,9 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1728557556844,607,Login by Admin,200,OK,Flow for tenant deletion 1-1,text,true,,1096,336,1,1,https://dev.guardianservice.app/api/v1/accounts/login,607,0,393
+1728557557451,0,Login by Admin-0,200,OK,Flow for tenant deletion 1-1,text,true,,567,0,1,1,null,0,0,0
+1728557557468,186,Get tenant id,400,Bad Request,Flow for tenant deletion 1-1,text,false,,940,245,1,1,https://dev.guardianservice.app/api/v1/tenants/user,185,0,0
+1728557557654,0,Get tenant id-0,200,OK,Flow for tenant deletion 1-1,text,true,,622,0,1,1,null,0,0,0
+1728557557654,194,Delete existing tenant,403,Forbidden,Flow for tenant deletion 1-1,text,false,,947,313,1,1,https://dev.guardianservice.app/api/v1/tenants/delete,194,0,0
+1728557557848,0,Delete existing tenant-0,200,OK,Flow for tenant deletion 1-1,text,true,,660,0,1,1,null,0,0,0
+1728557556843,987,Tenant delete,,"Number of samples in transaction : 3, number of failing samples : 2",Flow for tenant deletion 1-1,,false,,2983,894,1,1,null,986,19,393
+1728557556843,987,Delete users,,"Number of samples in transaction : 3, number of failing samples : 2",Flow for tenant deletion 1-1,,false,,2983,894,1,1,null,986,19,393
