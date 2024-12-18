@@ -78,6 +78,11 @@
             <stringProp name="Argument.value">443</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="policyId" elementType="Argument">
+            <stringProp name="Argument.name">policyId</stringProp>
+            <stringProp name="Argument.value">67628afbed344919f5c236ea</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
@@ -217,7 +222,7 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Tenant creation flow" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Tenant creation flow" enabled="false">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">true</boolProp>
         </TransactionController>
@@ -252,7 +257,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Refresh Token" enabled="true">
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Admin Refresh Token" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">adminRefreshToken</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
@@ -260,7 +265,7 @@
               <stringProp name="Scope.variable">adminRefreshToken</stringProp>
             </JSONPostProcessor>
             <hashTree/>
-            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Save Admin Refresh Token as property" enabled="true">
               <stringProp name="filename"></stringProp>
               <stringProp name="parameters"></stringProp>
               <boolProp name="resetInterpreter">false</boolProp>
@@ -296,7 +301,7 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Admin Access Token" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">adminAccessToken</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
@@ -391,8 +396,150 @@
           </HTTPSamplerProxy>
           <hashTree/>
         </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Get tenant" enabled="true">
+          <boolProp name="TransactionController.parent">true</boolProp>
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by Admin" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;username&quot;: &quot;${ADMIN_NAME}&quot;,&#xd;
+  &quot;password&quot;: &quot;${ADMIN_PASS}&quot;,&#xd;
+  &quot;tenantId&quot;: null&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">api/v1/accounts/login</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Admin Refresh Token" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">adminRefreshToken</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
+              <stringProp name="Scope.variable">adminRefreshToken</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Save Admin Refresh Token as property" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">${__setProperty(adminRT,${adminRefreshToken})}</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Admin Access Token" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;refreshToken&quot;: &quot;${__property(adminRT)}&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">api/v1/accounts/access-token</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Admin Access Token" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">adminAccessToken</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Admin auth" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="authorization" elementType="Header">
+                <stringProp name="Header.name">authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${adminAccessToken}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Tenant Id" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;pageSize&quot;: 10,&#xd;
+  &quot;pageIndex&quot;: 0,&#xd;
+  &quot;sortDirection&quot;: &quot;desc&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">api/v1/tenants/user</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract tenant id" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">tenantId</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$..id</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">${__setProperty(tenantId,${tenantId})}</stringProp>
+            </BeanShellPostProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users creation" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -406,7 +553,7 @@
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
       <hashTree>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="User creation flow" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="User creation flow" enabled="false">
           <boolProp name="TransactionController.includeTimers">false</boolProp>
           <boolProp name="TransactionController.parent">false</boolProp>
         </TransactionController>
@@ -417,7 +564,7 @@
           </TransactionController>
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Invite and accept SR" enabled="true">
-              <boolProp name="TransactionController.parent">false</boolProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
               <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
@@ -449,7 +596,7 @@
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Admin Access Token" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">adminAccessToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
@@ -543,7 +690,7 @@
               <hashTree/>
             </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Invite and accept user" enabled="true">
-              <boolProp name="TransactionController.parent">false</boolProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
               <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
@@ -575,7 +722,7 @@
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Admin Access Token" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">adminAccessToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
@@ -675,7 +822,6 @@
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Generate sr hedera data" enabled="true">
               <boolProp name="TransactionController.parent">false</boolProp>
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by SR OS" enabled="true">
@@ -714,22 +860,15 @@
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-                  <stringProp name="filename"></stringProp>
-                  <stringProp name="parameters"></stringProp>
-                  <boolProp name="resetInterpreter">false</boolProp>
-                  <stringProp name="script">${__setProperty(OSSRRT + ${sr_username},${OSSRRefreshToken})}</stringProp>
-                </BeanShellPostProcessor>
-                <hashTree/>
               </hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Access Token" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get OS SR Access Token" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
-  &quot;refreshToken&quot;: &quot;${__property(OSSRRT + ${sr_username})}&quot;&#xd;
+  &quot;refreshToken&quot;: &quot;${OSSRRefreshToken}&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -750,7 +889,7 @@
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract OS SR Access Token" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">OSSRAccessToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
@@ -767,7 +906,7 @@
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr key gen" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr key gen" enabled="false">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
                 <stringProp name="port">${PORT_OS_WS}</stringProp>
@@ -895,7 +1034,7 @@ if (result!=&quot;&quot;)
 	vars.put(&apos;operationStatusSR&apos;, &apos;DONE&apos;)</stringProp>
                   </JSR223PostProcessor>
                   <hashTree/>
-                  <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Getting error" enabled="true">
+                  <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Getting error key gen result" enabled="true">
                     <stringProp name="JSON_PATH">$..error.code</stringProp>
                     <stringProp name="EXPECTED_VALUE"></stringProp>
                     <boolProp name="JSONVALIDATION">false</boolProp>
@@ -939,18 +1078,10 @@ if (result!=&quot;&quot;)
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-                  <stringProp name="filename"></stringProp>
-                  <stringProp name="parameters"></stringProp>
-                  <boolProp name="resetInterpreter">false</boolProp>
-                  <stringProp name="script">${__setProperty(srHederaKey + ${sr_username},${sr_hedera_key})}</stringProp>
-                </BeanShellPostProcessor>
-                <hashTree/>
               </hashTree>
             </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Link SR" enabled="true">
               <boolProp name="TransactionController.parent">false</boolProp>
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by SR" enabled="true">
@@ -983,19 +1114,12 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Refresh Token" enabled="true">
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SR Refresh Token" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">SRRefreshToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                 </JSONPostProcessor>
-                <hashTree/>
-                <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-                  <stringProp name="filename"></stringProp>
-                  <stringProp name="parameters"></stringProp>
-                  <boolProp name="resetInterpreter">false</boolProp>
-                  <stringProp name="script">${__setProperty(SRRT + ${sr_username},${SRRefreshToken})}</stringProp>
-                </BeanShellPostProcessor>
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -1005,7 +1129,7 @@ if (result!=&quot;&quot;)
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
-  &quot;refreshToken&quot;: &quot;${__property(SRRT + ${sr_username})}&quot;&#xd;
+  &quot;refreshToken&quot;: &quot;${SRRefreshToken}&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -1026,7 +1150,7 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SR Access Token" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">SRAccessToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
@@ -1071,7 +1195,7 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr link" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr link" enabled="false">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
                 <stringProp name="port">${PORT_MGS_WS}</stringProp>
@@ -1080,7 +1204,7 @@ if (result!=&quot;&quot;)
                 <stringProp name="readTimeout">6000</stringProp>
               </eu.luminis.jmeter.wssampler.OpenWebSocketSampler>
               <hashTree/>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="false">
                 <stringProp name="ConstantTimer.delay">10000</stringProp>
               </ConstantTimer>
               <hashTree/>
@@ -1310,7 +1434,6 @@ if (result!=&quot;&quot;)
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Generate user hedera data" enabled="true">
               <boolProp name="TransactionController.parent">false</boolProp>
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by user OS" enabled="true">
@@ -1342,29 +1465,22 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract OS SR Refresh Token" enabled="true">
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract OS user Refresh Token" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">OSUserRefreshToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
-                <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-                  <stringProp name="filename"></stringProp>
-                  <stringProp name="parameters"></stringProp>
-                  <boolProp name="resetInterpreter">false</boolProp>
-                  <stringProp name="script">${__setProperty(OSUserRT + ${user_username},${OSUserRefreshToken})}</stringProp>
-                </BeanShellPostProcessor>
-                <hashTree/>
               </hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Access Token" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get OS user Access Token" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
-  &quot;refreshToken&quot;: &quot;${__property(OSUserRT + ${user_username})}&quot;&#xd;
+  &quot;refreshToken&quot;: &quot;${OSUserRefreshToken}&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -1385,24 +1501,24 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
-                  <stringProp name="JSONPostProcessor.referenceNames">OSSRAccessToken</stringProp>
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract OS user Access Token" enabled="true">
+                  <stringProp name="JSONPostProcessor.referenceNames">OSUserAccessToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                 </JSONPostProcessor>
                 <hashTree/>
               </hashTree>
-              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="OSSR auth" enabled="true">
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="OS user auth" enabled="true">
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="authorization" elementType="Header">
                     <stringProp name="Header.name">authorization</stringProp>
-                    <stringProp name="Header.value">Bearer ${OSSRAccessToken}</stringProp>
+                    <stringProp name="Header.value">Bearer ${OSUserAccessToken}</stringProp>
                   </elementProp>
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user key gen" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user key gen" enabled="false">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
                 <stringProp name="port">${PORT_OS_WS}</stringProp>
@@ -1578,7 +1694,6 @@ if (result!=&quot;&quot;)
             </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Link user" enabled="true">
               <boolProp name="TransactionController.parent">false</boolProp>
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by user" enabled="true">
@@ -1611,20 +1726,13 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree>
-                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Refresh Token" enabled="true">
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract user Refresh Token" enabled="true">
                   <stringProp name="JSONPostProcessor.referenceNames">userRefreshToken</stringProp>
                   <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
                   <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
                   <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
                   <stringProp name="Scope.variable">userRefreshToken</stringProp>
                 </JSONPostProcessor>
-                <hashTree/>
-                <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-                  <stringProp name="filename"></stringProp>
-                  <stringProp name="parameters"></stringProp>
-                  <boolProp name="resetInterpreter">false</boolProp>
-                  <stringProp name="script">${__setProperty(userRT + ${user_username},${userRefreshToken})}</stringProp>
-                </BeanShellPostProcessor>
                 <hashTree/>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Access Token" enabled="true">
@@ -1634,7 +1742,7 @@ if (result!=&quot;&quot;)
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
-  &quot;refreshToken&quot;: &quot;${__property(userRT + ${user_username})}&quot;&#xd;
+  &quot;refreshToken&quot;: &quot;${userRefreshToken}&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -1700,7 +1808,7 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user link" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user link" enabled="false">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
                 <stringProp name="port">${PORT_MGS_WS}</stringProp>
@@ -1708,6 +1816,10 @@ if (result!=&quot;&quot;)
                 <stringProp name="connectTimeout">300000</stringProp>
                 <stringProp name="readTimeout">10000</stringProp>
               </eu.luminis.jmeter.wssampler.OpenWebSocketSampler>
+              <hashTree/>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="false">
+                <stringProp name="ConstantTimer.delay">10000</stringProp>
+              </ConstantTimer>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR DID" enabled="true">
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -1750,10 +1862,6 @@ vars.put(&apos;srDid&apos;, srDid)</stringProp>
                 </JSR223PostProcessor>
                 <hashTree/>
               </hashTree>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-                <stringProp name="ConstantTimer.delay">10000</stringProp>
-              </ConstantTimer>
-              <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Link user profile" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -1937,33 +2045,6 @@ if (result!=&quot;&quot;)
             </hashTree>
           </hashTree>
         </hashTree>
-      </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Policy workflow" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-      </ThreadGroup>
-      <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-          <stringProp name="delimiter">;</stringProp>
-          <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="filename">userdatashort.csv</stringProp>
-          <boolProp name="ignoreFirstLine">false</boolProp>
-          <boolProp name="quotedData">false</boolProp>
-          <boolProp name="recycle">true</boolProp>
-          <stringProp name="shareMode">shareMode.all</stringProp>
-          <boolProp name="stopThread">false</boolProp>
-          <stringProp name="variableNames">sr_username,sr_pass,user_username,user_pass</stringProp>
-        </CSVDataSet>
-        <hashTree/>
         <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Policy import and dry run" enabled="true">
           <boolProp name="TransactionController.parent">false</boolProp>
           <boolProp name="TransactionController.includeTimers">false</boolProp>
@@ -1971,7 +2052,6 @@ if (result!=&quot;&quot;)
         <hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Requests for Import" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by SR" enabled="true">
@@ -2004,19 +2084,12 @@ if (result!=&quot;&quot;)
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Refresh Token" enabled="true">
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SR Refresh Token" enabled="true">
                 <stringProp name="JSONPostProcessor.referenceNames">SRRefreshToken</stringProp>
                 <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
                 <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
                 <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
               </JSONPostProcessor>
-              <hashTree/>
-              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-                <stringProp name="filename"></stringProp>
-                <stringProp name="parameters"></stringProp>
-                <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="script">${__setProperty(SRRT + ${sr_username},${SRRefreshToken})}</stringProp>
-              </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -2026,7 +2099,7 @@ if (result!=&quot;&quot;)
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-  &quot;refreshToken&quot;: &quot;${__property(SRRT + ${sr_username})}&quot;&#xd;
+  &quot;refreshToken&quot;: &quot;${SRRefreshToken}&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -2047,7 +2120,7 @@ if (result!=&quot;&quot;)
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Access Token" enabled="true">
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SR Access Token" enabled="true">
                 <stringProp name="JSONPostProcessor.referenceNames">SRAccessToken</stringProp>
                 <stringProp name="JSONPostProcessor.jsonPathExprs">$.accessToken</stringProp>
                 <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
@@ -2064,7 +2137,7 @@ if (result!=&quot;&quot;)
               </collectionProp>
             </HeaderManager>
             <hashTree/>
-            <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for policy import" enabled="true">
+            <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for policy import" enabled="false">
               <boolProp name="TLS">true</boolProp>
               <stringProp name="server">dev.guardianservice.app</stringProp>
               <stringProp name="port">${PORT_MGS_WS}</stringProp>
@@ -2081,6 +2154,42 @@ if (result!=&quot;&quot;)
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
   &quot;messageId&quot;: &quot;1719335230.464978003&quot;&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">api/v1/policies/push/import/message</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Task Id" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">taskIdImportPolicy</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.taskId</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Import Policy i-Rec" enabled="false">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;messageId&quot;: &quot;1719317583.251104003&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -2246,6 +2355,44 @@ if (result!=&quot;&quot;)
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by SR" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;username&quot;:&quot;${sr_username}&quot;,&#xd;
+  &quot;password&quot;:&quot;${sr_pass}&quot;,&#xd;
+  &quot;tenantId&quot;: &quot;${__property(tenantId)}&quot;&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">api/v1/accounts/login</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SR Refresh Token" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">SRRefreshToken</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+            </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -2253,7 +2400,7 @@ if (result!=&quot;&quot;)
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-  &quot;refreshToken&quot;: &quot;${__property(SRRT + ${sr_username})}&quot;&#xd;
+  &quot;refreshToken&quot;: &quot;${SRRefreshToken}&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -2336,7 +2483,7 @@ if (result!=&quot;&quot;)
             <boolProp name="TransactionController.parent">false</boolProp>
           </TransactionController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by SR TD" enabled="false">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by SR" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -2345,7 +2492,7 @@ if (result!=&quot;&quot;)
                     <stringProp name="Argument.value">{&#xd;
   &quot;username&quot;:&quot;${sr_username}&quot;,&#xd;
   &quot;password&quot;:&quot;${sr_pass}&quot;,&#xd;
-  &quot;tenantId&quot;: &quot;${tenantId}&quot;&#xd;
+  &quot;tenantId&quot;: &quot;${__property(tenantId)}&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -2366,19 +2513,12 @@ if (result!=&quot;&quot;)
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
             <hashTree>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Refresh Token" enabled="true">
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract SR Refresh Token" enabled="true">
                 <stringProp name="JSONPostProcessor.referenceNames">SRRefreshToken</stringProp>
                 <stringProp name="JSONPostProcessor.jsonPathExprs">$.refreshToken</stringProp>
                 <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
                 <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
               </JSONPostProcessor>
-              <hashTree/>
-              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
-                <stringProp name="filename"></stringProp>
-                <stringProp name="parameters"></stringProp>
-                <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="script">${__setProperty(SRRT + ${sr_username},${SRRefreshToken})}</stringProp>
-              </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -2388,7 +2528,7 @@ if (result!=&quot;&quot;)
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-  &quot;refreshToken&quot;: &quot;${__property(SRRT + ${sr_username})}&quot;&#xd;
+  &quot;refreshToken&quot;: &quot;${SRRefreshToken}&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -3058,119 +3198,117 @@ vars.put(&apos;PPDataBody&apos;, JSON.stringify({
                       <stringProp name="Argument.value">{&#xd;
   &quot;document&quot;: {&#xd;
     &quot;field0&quot;: {&#xd;
-      &quot;field0&quot;: &quot;example&quot;,&#xd;
-      &quot;field1&quot;: &quot;example&quot;,&#xd;
+      &quot;field0&quot;: &quot;Green Energy LLC LFG Power Plant Project was invested by Green Energy LLC. The landfill site of the project is in Konya province of Turkey. The project constructed a pipe system to collect landfill gas through solid waste management and use it for electricity generation, which is connected to the Turkish National Grid. The proposed activity involves the collection and utilization of the LFG with an electricity component with an installed capacity of 3.082 MWe (2 x 1.541 MWe).  The expected amount of solid waste at the project site is 83,950 tonnes/year, according to the waste analysis. Estimated electricity generation and corresponding annual estimated emission reduction values are 23,115 MWh and 34,762 tCO2, respectively. The starting date of the project activity shall be considered as 20/12/2020, which is the commissioning date of the first gas engine.  Prior to the proposed project activity, the waste was left to decay within the Ereğli landfill site, and methane was emitted to the atmosphere without any control or utilization. With the proposed project, LFG generated in the involved landfill site will be captured by a newly constructed LFG collection and utilization system. All of the captured LFG will be combusted to produce electricity for export to the grid. A flare device is installed to destroy excess LFG when the LFG generation amount exceeds the utilization capacity of the LFG power generators.  The exact timing and installed power of this expansion work depend on the actual LFG generation on site and the project design as of commissioning phases:  Gas engine 1: Capacity 1.541 MWe – 20/12/2020 Gas engine 2: Capacity 1.541 MWe – will be commissioned The project activity is located within the already existing landfill site, where the waste is transported from the city and the leachate is collected and stored. The proposed project does not involve any operations on-site; it will solely install the vertical and horizontal pipes to collect the LFG efficiently and generate power from the collected LFG.&quot;,&#xd;
+      &quot;field1&quot;: &quot;This is a voluntary project, but it follows the CDM rules. The approved baseline and monitoring methodology for large-scale project activities ACM0001-Version 19.0: “Flaring or use of landfill gas” is applied. Proposed project activity is categorized in the sectoral scope 1 “Energy Industry – Renewable -/Nonrenewable Sources” and 13 “Waste handling and disposal” according to the UNFCCC definition . &quot;,&#xd;
       &quot;field2&quot;: [&#xd;
-        &quot;example&quot;&#xd;
+        &quot;The project type is waste handling and disposal.&quot;&#xd;
       ],&#xd;
       &quot;field3&quot;: [&#xd;
-        &quot;example&quot;&#xd;
+        &quot;The project activity has been located within the already existing landfill site, where the waste is transported from the city and the leachate is collected and stored. The proposed project does not involve any operations on-site; it will solely install the vertical and horizontal pipes to collect the LFG efficiently and generate power from the collected LFG.  The proposed activity involves the collection and utilization of the LFG with an electricity component with an installed capacity of 3.082 MWe (2 x 1.541 MWe). The expected amount of solid waste at the project site is 83,950 tonnes/year, according to the waste analysis. Estimated electricity generation and corresponding annual estimated emission reduction values are 23,115 MWh and 34,762 tCO2, respectively.&quot;&#xd;
       ],&#xd;
-      &quot;field4&quot;: &quot;example&quot;,&#xd;
-      &quot;field5&quot;: &quot;example&quot;,&#xd;
-      &quot;field6&quot;: &quot;example&quot;,&#xd;
+      &quot;field4&quot;: &quot;Project&quot;,&#xd;
+      &quot;field5&quot;: &quot;37.579518° N&quot;,&#xd;
+      &quot;field6&quot;: &quot;33.830127° E&quot;,&#xd;
       &quot;field7&quot;: [&#xd;
         {&#xd;
           &quot;type&quot;: &quot;Point&quot;,&#xd;
           &quot;coordinates&quot;: [&#xd;
-            0,&#xd;
-            0&#xd;
+            33.830127,&#xd;
+            37.579518&#xd;
           ]&#xd;
         }&#xd;
       ],&#xd;
-      &quot;field8&quot;: &quot;example&quot;,&#xd;
-      &quot;field9&quot;: &quot;example&quot;,&#xd;
-      &quot;field10&quot;: &quot;example&quot;,&#xd;
-      &quot;field11&quot;: &quot;example&quot;,&#xd;
-      &quot;field12&quot;: &quot;example&quot;,&#xd;
-      &quot;field13&quot;: &quot;example&quot;,&#xd;
-      &quot;field14&quot;: &quot;example@email.com&quot;,&#xd;
+      &quot;field8&quot;: &quot;The project is eligible under the scope of the VCS Program. Since the project meets the applicability conditions set out in the ACM0001 Flaring or use of landfill gas.&quot;,&#xd;
+      &quot;field9&quot;: &quot;Green Energy LLC&quot;,&#xd;
+      &quot;field10&quot;: &quot;Jane Doe&quot;,&#xd;
+      &quot;field11&quot;: &quot;Project Director&quot;,&#xd;
+      &quot;field12&quot;: &quot;Çınar Sokak No: 12, Altındağ Mahallesi, 06050 Altındağ/Ankara, Turkey&quot;,&#xd;
+      &quot;field13&quot;: &quot;+90 312 555 1234&quot;,&#xd;
+      &quot;field14&quot;: &quot;j.doe@greenenergy.com&quot;,&#xd;
       &quot;field15&quot;: [&#xd;
-        &quot;example&quot;&#xd;
+        &quot;Green Energy LLC&quot;&#xd;
       ],&#xd;
-      &quot;field16&quot;: &quot;example&quot;,&#xd;
-      &quot;field17&quot;: &quot;example&quot;,&#xd;
+      &quot;field16&quot;: &quot;No&quot;,&#xd;
+      &quot;field17&quot;: &quot;No&quot;,&#xd;
       &quot;field18&quot;: [&#xd;
-        &quot;example&quot;&#xd;
+        &quot;ACM0001 v19.0&quot;&#xd;
       ],&#xd;
-      &quot;field19&quot;: &quot;2000-01-01&quot;,&#xd;
+      &quot;field19&quot;: &quot;2020-12-20&quot;,&#xd;
       &quot;field20&quot;: [&#xd;
         {&#xd;
-          &quot;field0&quot;: &quot;2000-01-01&quot;,&#xd;
-          &quot;field1&quot;: &quot;2000-01-01&quot;&#xd;
+          &quot;field0&quot;: &quot;2020-12-20&quot;,&#xd;
+          &quot;field1&quot;: &quot;2027-12-19&quot;&#xd;
         }&#xd;
       ],&#xd;
       &quot;field21&quot;: [&#xd;
         {&#xd;
-          &quot;field0&quot;: &quot;2000-01-01&quot;,&#xd;
-          &quot;field1&quot;: &quot;2000-01-01&quot;&#xd;
+          &quot;field0&quot;: &quot;2020-12-20&quot;,&#xd;
+          &quot;field1&quot;: &quot;2027-12-19&quot;&#xd;
         }&#xd;
       ],&#xd;
-      &quot;field22&quot;: &quot;example&quot;,&#xd;
-      &quot;field23&quot;: &quot;example&quot;,&#xd;
-      &quot;field24&quot;: &quot;example&quot;,&#xd;
-      &quot;field25&quot;: &quot;example&quot;,&#xd;
+      &quot;field22&quot;: &quot;A monitoring plan has been developed that covers all the procedures required as per the approved methodology ACM0001. To guarantee the accuracy of the monitoring data, periodic calibration of the installed monitoring equipment is carried out according to the manufacturer&apos;s requirements. All data are registered and processed electronically. At each booster station, a server unit receives all data sent from the meters, and data in real time is saved to an internal memory at least hourly. Every day, the server creates a file with all half-hourly data saved. The server also automatically calculates at least every hour the normal flow of landfill gas captured and of the biogas produced by the digester; the gas flow is multiplied with the real gas formula, normalizing the gas flow to standard temperature and pressure. Temperature and pressure are real-time values.  The data stored at the booster station server are transferred once per month to a computer and a backup hard drive. In case of failures of the data recording system, no emission reduction will be claimed for that period. The original data from the electricity meter are taken by a distance reading carried out by the Grid Company. The electricity data can be seen on a web page of EPIAS. The monthly electricity data are transferred to the Excel sheet used for the emission reduction calculations. The project owner is responsible for the operation and monitoring of the project activities. All the monitored data will be stored within the crediting period and for at least two years after the end of the crediting period.&quot;,&#xd;
+      &quot;field23&quot;: &quot;For the electricity generation component, the following laws and regulations apply; Laws and Regulations Applicable in the Electricity Market Legal Framework Concerning Electricity Generation Electricity Market Balancing and Settlement Regulation • The repealed Electricity Market Balancing And Settlement Regulation published in the Official Gazette No. 25632 dated 03/11/2004 • Regulation Concerning Electricity Demand Forecast • Communiqué Regarding Connection to and Use of Transmission and Distribution Systems in the • Electricity Market Communiqué Regarding Preparation of Retail Contract in The Electricity Market • Communiqué Concerning Principles and Procedures for Selection in the Existence of More Than One • Application for Generation of Electricity from the Same Source and on the Same Region • Communiqué Regarding Regulation of Market Management Revenue • Regulation on Principles and Procedures for Granting Guarantee of Origin • Electricity Transmission System Supply Reliability and Quality Regulation • Electricity Market Grid Regulation • Communiqué Regarding The Principles and Procedures of Financial Settlement In The Electricity Market • Electricity Market Import and Export Regulation • Communiqué Regarding Regulatory Accounting Guidelines • Electricity Market Distribution Regulation • Communiqué Regarding the Meters to be used in the Electricity Market • Electricity Market Customer Services Regulation • Electricity Market Eligible Consumer Regulation • Electricity Market License Fees • Electricity Market Tariffs Regulation • Electricity Market Licensing Regulation • Electricity Market Law&quot;,&#xd;
+      &quot;field24&quot;: &quot;The project helps following sustainable development goals: 1 – Affordable and Clean Energy (SDG 7): The project promotes clean and sustainable energy be production and use. The total net electricity production of the project is 23.115 GWh/year as per generation licence. 2 – Decent Work and Economic Growth (SDG 8): The project generated employment for all. The employee has required technical training and certifications. 3 – Climate Action (SDG 13): The project contributes to SDG 13 with an amount of 34,762 tonnes of CO2e/y, which represent direct and quantifiable impact on climate security.&quot;,&#xd;
+      &quot;field25&quot;: &quot;There is no further information to be shared.&quot;,&#xd;
       &quot;field27&quot;: {&#xd;
-        &quot;F4&quot;: 1,&#xd;
-        &quot;F5&quot;: &quot;Available&quot;,&#xd;
-        &quot;F8&quot;: 1&#xd;
+        &quot;F4&quot;: 23859,&#xd;
+        &quot;F5&quot;: &quot;Unavailable&quot;&#xd;
       }&#xd;
     },&#xd;
     &quot;H32&quot;: {},&#xd;
     &quot;H37&quot;: {&#xd;
       &quot;ex_post&quot;: {&#xd;
-        &quot;F5&quot;: 1,&#xd;
-        &quot;F6&quot;: 1,&#xd;
-        &quot;F7&quot;: 1,&#xd;
-        &quot;F8&quot;: 1,&#xd;
+        &quot;F5&quot;: 477.2,&#xd;
+        &quot;F6&quot;: 0,&#xd;
+        &quot;F7&quot;: 0,&#xd;
+        &quot;F8&quot;: 0,&#xd;
         &quot;tool_06&quot;: {&#xd;
           &quot;field0&quot;: &quot;Yes&quot;,&#xd;
-          &quot;field1&quot;: 1,&#xd;
-          &quot;field2&quot;: 1,&#xd;
-          &quot;field3&quot;: 1,&#xd;
-          &quot;field4&quot;: 1,&#xd;
-          &quot;field5&quot;: 1,&#xd;
-          &quot;field6&quot;: 1,&#xd;
-          &quot;field7&quot;: 1,&#xd;
-          &quot;field8&quot;: 1,&#xd;
-          &quot;field9&quot;: 1,&#xd;
-          &quot;field10&quot;: 1&#xd;
+          &quot;field1&quot;: 0.4942,&#xd;
+          &quot;field2&quot;: 0,&#xd;
+          &quot;field3&quot;: 0,&#xd;
+          &quot;field4&quot;: 0,&#xd;
+          &quot;field5&quot;: 0,&#xd;
+          &quot;field6&quot;: 0.1,&#xd;
+          &quot;field7&quot;: 103.95,&#xd;
+          &quot;field8&quot;: 0,&#xd;
+          &quot;field9&quot;: 0,&#xd;
+          &quot;field10&quot;: 0&#xd;
         }&#xd;
       },&#xd;
       &quot;H31&quot;: &quot;There is no requirement to destroy methane and there is no existing LFG capture and destruction system&quot;,&#xd;
-      &quot;H45&quot;: 1,&#xd;
-      &quot;H49&quot;: 1,&#xd;
-      &quot;H50&quot;: 1,&#xd;
+      &quot;H45&quot;: 0,&#xd;
+      &quot;H49&quot;: 0,&#xd;
+      &quot;H50&quot;: 0,&#xd;
       &quot;H55&quot;: [&#xd;
         {&#xd;
           &quot;H58&quot;: &quot;Boiler or Air Heater or Glass Melting Furnace&quot;,&#xd;
-          &quot;H60&quot;: 1,&#xd;
-          &quot;H61&quot;: 1,&#xd;
-          &quot;H62&quot;: &quot;Measured/Provided&quot;,&#xd;
+          &quot;H60&quot;: 0,&#xd;
+          &quot;H61&quot;: 0,&#xd;
+          &quot;H62&quot;: &quot;Unavailable&quot;,&#xd;
           &quot;hge_other&quot;: {&#xd;
-            &quot;F6&quot;: 1&#xd;
-          },&#xd;
-          &quot;H52&quot;: 1&#xd;
+            &quot;F6&quot;: 0&#xd;
+          }&#xd;
         }&#xd;
       ],&#xd;
       &quot;case_1&quot;: {}&#xd;
     },&#xd;
     &quot;H73&quot;: {&#xd;
-      &quot;H79&quot;: 1,&#xd;
-      &quot;H81&quot;: 1,&#xd;
-      &quot;H82&quot;: 1&#xd;
+      &quot;H79&quot;: 0,&#xd;
+      &quot;H81&quot;: 0,&#xd;
+      &quot;H82&quot;: 0&#xd;
     },&#xd;
     &quot;H83&quot;: {},&#xd;
     &quot;tool_03&quot;: {&#xd;
       &quot;field0&quot;: [&#xd;
         {&#xd;
-          &quot;field0&quot;: &quot;example&quot;,&#xd;
-          &quot;field1&quot;: &quot;example&quot;,&#xd;
+          &quot;field0&quot;: &quot;N/A&quot;,&#xd;
+          &quot;field1&quot;: &quot;N/A&quot;,&#xd;
           &quot;field2&quot;: &quot;The CO2 emission coefficient is calculated based on the chemical composition of the fossil fuel type&quot;,&#xd;
-          &quot;field6&quot;: 1,&#xd;
+          &quot;field6&quot;: 0,&#xd;
           &quot;field3&quot;: {&#xd;
             &quot;field0&quot;: &quot;Mass&quot;,&#xd;
-            &quot;field1&quot;: 1&#xd;
+            &quot;field1&quot;: 0&#xd;
           }&#xd;
         }&#xd;
       ]&#xd;
@@ -3178,21 +3316,84 @@ vars.put(&apos;PPDataBody&apos;, JSON.stringify({
     &quot;tool_05&quot;: {&#xd;
       &quot;field0&quot;: &quot;Electricity consumption from the grid&quot;,&#xd;
       &quot;field7&quot;: {&#xd;
-        &quot;field0&quot;: &quot;Use conservative default values&quot;,&#xd;
+        &quot;field0&quot;: &quot;Calculate the combined margin emission factor of the applicable electricity system, using the procedures in the latest approved version of the “Use Tool 7 to calculate the emission factor for an electricity system” (EFEL,j/k/l,y = EFgrid,CM,y)&quot;,&#xd;
         &quot;field1&quot;: {&#xd;
-          &quot;field0&quot;: 1,&#xd;
-          &quot;field1&quot;: 1,&#xd;
-          &quot;field2&quot;: &quot;example&quot;,&#xd;
-          &quot;field3&quot;: 1,&#xd;
-          &quot;field4&quot;: 1,&#xd;
-          &quot;field5&quot;: &quot;example&quot;,&#xd;
-          &quot;field6&quot;: 1,&#xd;
-          &quot;field7&quot;: 1,&#xd;
-          &quot;field8&quot;: &quot;example&quot;&#xd;
+          &quot;field0&quot;: 168.8,&#xd;
+          &quot;field1&quot;: 0.05,&#xd;
+          &quot;field2&quot;: &quot;N/A&quot;,&#xd;
+          &quot;field3&quot;: 0,&#xd;
+          &quot;field4&quot;: 0,&#xd;
+          &quot;field5&quot;: &quot;N/A&quot;,&#xd;
+          &quot;field6&quot;: 0,&#xd;
+          &quot;field7&quot;: 0,&#xd;
+          &quot;field8&quot;: &quot;N/A&quot;&#xd;
         },&#xd;
-        &quot;field3&quot;: {&#xd;
-          &quot;field0&quot;: &quot;Only to baseline electricity consumption sources but not to project or leakage electricity consumption sources&quot;,&#xd;
-          &quot;field1&quot;: &quot;Yes&quot;&#xd;
+        &quot;field2&quot;: {&#xd;
+          &quot;field0&quot;: &quot;N/A&quot;,&#xd;
+          &quot;field1&quot;: &quot;Annual&quot;,&#xd;
+          &quot;field4&quot;: {&#xd;
+            &quot;field2&quot;: 2019,&#xd;
+            &quot;field3&quot;: 0,&#xd;
+            &quot;field4&quot;: [&#xd;
+              {&#xd;
+                &quot;field0&quot;: &quot;N/A&quot;,&#xd;
+                &quot;field1&quot;: &quot;2019-01-01&quot;,&#xd;
+                &quot;field2&quot;: 1,&#xd;
+                &quot;field3&quot;: 0&#xd;
+              }&#xd;
+            ]&#xd;
+          },&#xd;
+          &quot;field5&quot;: {&#xd;
+            &quot;field0&quot;: &quot;No&quot;,&#xd;
+            &quot;field1&quot;: &quot;Yes&quot;,&#xd;
+            &quot;field2&quot;: &quot;All Other Projects&quot;,&#xd;
+            &quot;field5&quot;: {&#xd;
+              &quot;field0&quot;: &quot;Neither&quot;,&#xd;
+              &quot;field3&quot;: {&#xd;
+                &quot;field4&quot;: &quot;No&quot;,&#xd;
+                &quot;field5&quot;: &quot;Less than or equal&quot;,&#xd;
+                &quot;field6&quot;: &quot;Yes&quot;&#xd;
+              }&#xd;
+            }&#xd;
+          },&#xd;
+          &quot;field3&quot;: {&#xd;
+            &quot;field0&quot;: &quot;No&quot;,&#xd;
+            &quot;field2&quot;: {&#xd;
+              &quot;field0&quot;: &quot;No&quot;,&#xd;
+              &quot;field2&quot;: {&#xd;
+                &quot;field0&quot;: &quot;No&quot;,&#xd;
+                &quot;field2&quot;: {&#xd;
+                  &quot;field0&quot;: &quot;No&quot;,&#xd;
+                  &quot;field2&quot;: {&#xd;
+                    &quot;field0&quot;: &quot;Yes&quot;,&#xd;
+                    &quot;field1&quot;: {&#xd;
+                      &quot;field0&quot;: &quot;Based on the net electricity generation and a CO2 emission factor of each power unit&quot;,&#xd;
+                      &quot;field2&quot;: {&#xd;
+                        &quot;field1&quot;: [&#xd;
+                          {&#xd;
+                            &quot;field0&quot;: &quot;Data available for fuel consumption and electricity generation&quot;,&#xd;
+                            &quot;field1&quot;: {&#xd;
+                              &quot;field2&quot;: &quot;Power Unit 1&quot;,&#xd;
+                              &quot;field3&quot;: 23859,&#xd;
+                              &quot;field4&quot;: &quot;2019&quot;,&#xd;
+                              &quot;field5&quot;: [&#xd;
+                                {&#xd;
+                                  &quot;field0&quot;: &quot;Coal&quot;,&#xd;
+                                  &quot;field1&quot;: 1520,&#xd;
+                                  &quot;field2&quot;: 22.609,&#xd;
+                                  &quot;field3&quot;: 0.7665&#xd;
+                                }&#xd;
+                              ]&#xd;
+                            }&#xd;
+                          }&#xd;
+                        ]&#xd;
+                      }&#xd;
+                    }&#xd;
+                  }&#xd;
+                }&#xd;
+              }&#xd;
+            }&#xd;
+          }&#xd;
         }&#xd;
       }&#xd;
     }&#xd;
@@ -3206,7 +3407,7 @@ vars.put(&apos;PPDataBody&apos;, JSON.stringify({
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                 <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/add_project_bnt/blocks</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -3329,7 +3530,7 @@ vars.put(&apos;PPDataBody&apos;, JSON.stringify({
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                 <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/sr_validate_project_btn/blocks</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -3466,7 +3667,7 @@ vars.put(&apos;ProjectDataBody&apos;, JSON.stringify({
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                 <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/add_report_bnt/blocks</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -3484,145 +3685,206 @@ vars.put(&apos;ProjectDataBody&apos;, JSON.stringify({
                   <stringProp name="parameters"></stringProp>
                   <stringProp name="script">var ref = JSON.parse(vars.get(&quot;ProjectDataRef&quot;))
 var doc = {
-  &quot;field0&quot;: {
-    &quot;field0&quot;: &quot;example&quot;,
-    &quot;field1&quot;: &quot;example&quot;,
-    &quot;field2&quot;: [
-      &quot;example&quot;
-    ],
-    &quot;field3&quot;: [
-      &quot;example&quot;
-    ],
-    &quot;field4&quot;: &quot;example&quot;,
-    &quot;field5&quot;: &quot;example&quot;,
-    &quot;field6&quot;: &quot;example&quot;,
-    &quot;field7&quot;: [
-      {
-        &quot;type&quot;: &quot;Point&quot;,
-        &quot;coordinates&quot;: [
-          0,
-          0
-        ]
-      }
-    ],
-    &quot;field8&quot;: &quot;example&quot;,
-    &quot;field9&quot;: &quot;example&quot;,
-    &quot;field10&quot;: &quot;example&quot;,
-    &quot;field11&quot;: &quot;example&quot;,
-    &quot;field12&quot;: &quot;example&quot;,
-    &quot;field13&quot;: &quot;example&quot;,
-    &quot;field14&quot;: &quot;example@email.com&quot;,
-    &quot;field15&quot;: [
-      &quot;example&quot;
-    ],
-    &quot;field16&quot;: &quot;example&quot;,
-    &quot;field17&quot;: &quot;example&quot;,
-    &quot;field18&quot;: [
-      &quot;example&quot;
-    ],
-    &quot;field19&quot;: &quot;2000-01-01&quot;,
-    &quot;field20&quot;: [
-      {
-        &quot;field0&quot;: &quot;2000-01-01&quot;,
-        &quot;field1&quot;: &quot;2000-01-01&quot;
-      }
-    ],
-    &quot;field21&quot;: [
-      {
-        &quot;field0&quot;: &quot;2000-01-01&quot;,
-        &quot;field1&quot;: &quot;2000-01-01&quot;
-      }
-    ],
-    &quot;field22&quot;: &quot;example&quot;,
-    &quot;field23&quot;: &quot;example&quot;,
-    &quot;field24&quot;: &quot;example&quot;,
-    &quot;field25&quot;: &quot;example&quot;,
-    &quot;field27&quot;: {
-      &quot;F4&quot;: 1,
-      &quot;F5&quot;: &quot;Available&quot;,
-      &quot;F8&quot;: 1
-    }
-  },
-  &quot;H32&quot;: {},
-  &quot;H37&quot;: {
-    &quot;ex_post&quot;: {
-      &quot;F5&quot;: 1,
-      &quot;F6&quot;: 1,
-      &quot;F7&quot;: 1,
-      &quot;F8&quot;: 1,
-      &quot;tool_06&quot;: {
-        &quot;field0&quot;: &quot;Yes&quot;,
-        &quot;field1&quot;: 1,
-        &quot;field2&quot;: 1,
-        &quot;field3&quot;: 1,
-        &quot;field4&quot;: 1,
-        &quot;field5&quot;: 1,
-        &quot;field6&quot;: 1,
-        &quot;field7&quot;: 1,
-        &quot;field8&quot;: 1,
-        &quot;field9&quot;: 1,
-        &quot;field10&quot;: 1
-      }
+    &quot;field0&quot;: {
+      &quot;field0&quot;: &quot;Green Energy LLC LFG Power Plant Project was invested by Green Energy LLC. The landfill site of the project is in Konya province of Turkey. The project constructed a pipe system to collect landfill gas through solid waste management and use it for electricity generation, which is connected to the Turkish National Grid. The proposed activity involves the collection and utilization of the LFG with an electricity component with an installed capacity of 3.082 MWe (2 x 1.541 MWe).  The expected amount of solid waste at the project site is 83,950 tonnes/year, according to the waste analysis. Estimated electricity generation and corresponding annual estimated emission reduction values are 23,115 MWh and 34,762 tCO2, respectively. The starting date of the project activity shall be considered as 20/12/2020, which is the commissioning date of the first gas engine.  Prior to the proposed project activity, the waste was left to decay within the Ereğli landfill site, and methane was emitted to the atmosphere without any control or utilization. With the proposed project, LFG generated in the involved landfill site will be captured by a newly constructed LFG collection and utilization system. All of the captured LFG will be combusted to produce electricity for export to the grid. A flare device is installed to destroy excess LFG when the LFG generation amount exceeds the utilization capacity of the LFG power generators.  The exact timing and installed power of this expansion work depend on the actual LFG generation on site and the project design as of commissioning phases:  Gas engine 1: Capacity 1.541 MWe – 20/12/2020 Gas engine 2: Capacity 1.541 MWe – will be commissioned The project activity is located within the already existing landfill site, where the waste is transported from the city and the leachate is collected and stored. The proposed project does not involve any operations on-site; it will solely install the vertical and horizontal pipes to collect the LFG efficiently and generate power from the collected LFG.&quot;,
+      &quot;field1&quot;: &quot;This is a voluntary project, but it follows the CDM rules. The approved baseline and monitoring methodology for large-scale project activities ACM0001-Version 19.0: “Flaring or use of landfill gas” is applied. Proposed project activity is categorized in the sectoral scope 1 “Energy Industry – Renewable -/Nonrenewable Sources” and 13 “Waste handling and disposal” according to the UNFCCC definition . &quot;,
+      &quot;field10&quot;: &quot;Jane Doe&quot;,
+      &quot;field11&quot;: &quot;Project Director&quot;,
+      &quot;field12&quot;: &quot;Çınar Sokak No: 12, Altındağ Mahallesi, 06050 Altındağ/Ankara, Turkey&quot;,
+      &quot;field13&quot;: &quot;+90 312 555 1234&quot;,
+      &quot;field14&quot;: &quot;j.doe@greenenergy.com&quot;,
+      &quot;field15&quot;: [
+        &quot;Green Energy LLC&quot;
+      ],
+      &quot;field16&quot;: &quot;No&quot;,
+      &quot;field17&quot;: &quot;No&quot;,
+      &quot;field18&quot;: [
+        &quot;ACM0001 v19.0&quot;
+      ],
+      &quot;field19&quot;: &quot;2020-12-20&quot;,
+      &quot;field2&quot;: [
+        &quot;The project type is waste handling and disposal.&quot;
+      ],
+      &quot;field20&quot;: [
+        {
+          &quot;field0&quot;: &quot;2020-12-20&quot;,
+          &quot;field1&quot;: &quot;2027-12-19&quot;
+        }
+      ],
+      &quot;field21&quot;: [
+        {
+          &quot;field0&quot;: &quot;2020-12-20&quot;,
+          &quot;field1&quot;: &quot;2027-12-19&quot;
+        }
+      ],
+      &quot;field22&quot;: &quot;A monitoring plan has been developed that covers all the procedures required as per the approved methodology ACM0001. To guarantee the accuracy of the monitoring data, periodic calibration of the installed monitoring equipment is carried out according to the manufacturer&apos;s requirements. All data are registered and processed electronically. At each booster station, a server unit receives all data sent from the meters, and data in real time is saved to an internal memory at least hourly. Every day, the server creates a file with all half-hourly data saved. The server also automatically calculates at least every hour the normal flow of landfill gas captured and of the biogas produced by the digester; the gas flow is multiplied with the real gas formula, normalizing the gas flow to standard temperature and pressure. Temperature and pressure are real-time values.  The data stored at the booster station server are transferred once per month to a computer and a backup hard drive. In case of failures of the data recording system, no emission reduction will be claimed for that period. The original data from the electricity meter are taken by a distance reading carried out by the Grid Company. The electricity data can be seen on a web page of EPIAS. The monthly electricity data are transferred to the Excel sheet used for the emission reduction calculations. The project owner is responsible for the operation and monitoring of the project activities. All the monitored data will be stored within the crediting period and for at least two years after the end of the crediting period.&quot;,
+      &quot;field23&quot;: &quot;For the electricity generation component, the following laws and regulations apply; Laws and Regulations Applicable in the Electricity Market Legal Framework Concerning Electricity Generation Electricity Market Balancing and Settlement Regulation • The repealed Electricity Market Balancing And Settlement Regulation published in the Official Gazette No. 25632 dated 03/11/2004 • Regulation Concerning Electricity Demand Forecast • Communiqué Regarding Connection to and Use of Transmission and Distribution Systems in the • Electricity Market Communiqué Regarding Preparation of Retail Contract in The Electricity Market • Communiqué Concerning Principles and Procedures for Selection in the Existence of More Than One • Application for Generation of Electricity from the Same Source and on the Same Region • Communiqué Regarding Regulation of Market Management Revenue • Regulation on Principles and Procedures for Granting Guarantee of Origin • Electricity Transmission System Supply Reliability and Quality Regulation • Electricity Market Grid Regulation • Communiqué Regarding The Principles and Procedures of Financial Settlement In The Electricity Market • Electricity Market Import and Export Regulation • Communiqué Regarding Regulatory Accounting Guidelines • Electricity Market Distribution Regulation • Communiqué Regarding the Meters to be used in the Electricity Market • Electricity Market Customer Services Regulation • Electricity Market Eligible Consumer Regulation • Electricity Market License Fees • Electricity Market Tariffs Regulation • Electricity Market Licensing Regulation • Electricity Market Law&quot;,
+      &quot;field24&quot;: &quot;The project helps following sustainable development goals: 1 – Affordable and Clean Energy (SDG 7): The project promotes clean and sustainable energy be production and use. The total net electricity production of the project is 23.115 GWh/year as per generation licence. 2 – Decent Work and Economic Growth (SDG 8): The project generated employment for all. The employee has required technical training and certifications. 3 – Climate Action (SDG 13): The project contributes to SDG 13 with an amount of 34,762 tonnes of CO2e/y, which represent direct and quantifiable impact on climate security.&quot;,
+      &quot;field25&quot;: &quot;There is no further information to be shared.&quot;,
+      &quot;field27&quot;: {
+        &quot;F4&quot;: 23859,
+        &quot;F5&quot;: &quot;Unavailable&quot;
+      },
+      &quot;field3&quot;: [
+        &quot;The project activity has been located within the already existing landfill site, where the waste is transported from the city and the leachate is collected and stored. The proposed project does not involve any operations on-site; it will solely install the vertical and horizontal pipes to collect the LFG efficiently and generate power from the collected LFG.  The proposed activity involves the collection and utilization of the LFG with an electricity component with an installed capacity of 3.082 MWe (2 x 1.541 MWe). The expected amount of solid waste at the project site is 83,950 tonnes/year, according to the waste analysis. Estimated electricity generation and corresponding annual estimated emission reduction values are 23,115 MWh and 34,762 tCO2, respectively.&quot;
+      ],
+      &quot;field4&quot;: &quot;Project&quot;,
+      &quot;field5&quot;: &quot;37.579518° N&quot;,
+      &quot;field6&quot;: &quot;33.830127° E&quot;,
+      &quot;field7&quot;: [
+        {
+          &quot;coordinates&quot;: [
+            33.830127,
+            37.579518
+          ],
+          &quot;type&quot;: &quot;Point&quot;
+        }
+      ],
+      &quot;field8&quot;: &quot;The project is eligible under the scope of the VCS Program. Since the project meets the applicability conditions set out in the ACM0001 Flaring or use of landfill gas.&quot;,
+      &quot;field9&quot;: &quot;Green Energy LLC&quot;
     },
-    &quot;H31&quot;: &quot;There is no requirement to destroy methane and there is no existing LFG capture and destruction system&quot;,
-    &quot;H45&quot;: 1,
-    &quot;H49&quot;: 1,
-    &quot;H50&quot;: 1,
-    &quot;H55&quot;: [
-      {
-        &quot;H58&quot;: &quot;Boiler or Air Heater or Glass Melting Furnace&quot;,
-        &quot;H60&quot;: 1,
-        &quot;H61&quot;: 1,
-        &quot;H62&quot;: &quot;Measured/Provided&quot;,
-        &quot;hge_other&quot;: {
-          &quot;F6&quot;: 1
+    &quot;H32&quot;: {},
+    &quot;H37&quot;: {
+      &quot;case_1&quot;: {},
+      &quot;ex_post&quot;: {
+        &quot;F5&quot;: 477.2,
+        &quot;F6&quot;: 0,
+        &quot;F7&quot;: 0,
+        &quot;F8&quot;: 0,
+        &quot;tool_06&quot;: {
+          &quot;field0&quot;: &quot;Yes&quot;,
+          &quot;field1&quot;: 0.4942,
+          &quot;field10&quot;: 0,
+          &quot;field2&quot;: 0,
+          &quot;field3&quot;: 0,
+          &quot;field4&quot;: 0,
+          &quot;field5&quot;: 0,
+          &quot;field6&quot;: 0.1,
+          &quot;field7&quot;: 103.95,
+          &quot;field8&quot;: 0,
+          &quot;field9&quot;: 0
+        }
+      },
+      &quot;H31&quot;: &quot;There is no requirement to destroy methane and there is no existing LFG capture and destruction system&quot;,
+      &quot;H45&quot;: 0,
+      &quot;H49&quot;: 0,
+      &quot;H50&quot;: 0,
+      &quot;H55&quot;: [
+        {
+          &quot;H58&quot;: &quot;Boiler or Air Heater or Glass Melting Furnace&quot;,
+          &quot;H60&quot;: 0,
+          &quot;H61&quot;: 0,
+          &quot;H62&quot;: &quot;Unavailable&quot;,
+          &quot;hge_other&quot;: {
+            &quot;F6&quot;: 0
+          }
+        }
+      ]
+    },
+    &quot;H73&quot;: {
+      &quot;H79&quot;: 0,
+      &quot;H81&quot;: 0,
+      &quot;H82&quot;: 0
+    },
+    &quot;H83&quot;: {},
+    &quot;tool_03&quot;: {
+      &quot;field0&quot;: [
+        {
+          &quot;field0&quot;: &quot;N/A&quot;,
+          &quot;field1&quot;: &quot;N/A&quot;,
+          &quot;field2&quot;: &quot;The CO2 emission coefficient is calculated based on the chemical composition of the fossil fuel type&quot;,
+          &quot;field3&quot;: {
+            &quot;field0&quot;: &quot;Mass&quot;,
+            &quot;field1&quot;: 0
+          },
+          &quot;field6&quot;: 0
+        }
+      ]
+    },
+    &quot;tool_05&quot;: {
+      &quot;field0&quot;: &quot;Electricity consumption from the grid&quot;,
+      &quot;field7&quot;: {
+        &quot;field0&quot;: &quot;Calculate the combined margin emission factor of the applicable electricity system, using the procedures in the latest approved version of the “Use Tool 7 to calculate the emission factor for an electricity system” (EFEL,j/k/l,y = EFgrid,CM,y)&quot;,
+        &quot;field1&quot;: {
+          &quot;field0&quot;: 168.8,
+          &quot;field1&quot;: 0.05,
+          &quot;field2&quot;: &quot;N/A&quot;,
+          &quot;field3&quot;: 0,
+          &quot;field4&quot;: 0,
+          &quot;field5&quot;: &quot;N/A&quot;,
+          &quot;field6&quot;: 0,
+          &quot;field7&quot;: 0,
+          &quot;field8&quot;: &quot;N/A&quot;
         },
-        &quot;H52&quot;: 1
-      }
-    ],
-    &quot;case_1&quot;: {}
-  },
-  &quot;H73&quot;: {
-    &quot;H79&quot;: 1,
-    &quot;H81&quot;: 1,
-    &quot;H82&quot;: 1
-  },
-  &quot;H83&quot;: {},
-  &quot;tool_03&quot;: {
-    &quot;field0&quot;: [
-      {
-        &quot;field0&quot;: &quot;example&quot;,
-        &quot;field1&quot;: &quot;example&quot;,
-        &quot;field2&quot;: &quot;The CO2 emission coefficient is calculated based on the chemical composition of the fossil fuel type&quot;,
-        &quot;field6&quot;: 1,
-        &quot;field3&quot;: {
-          &quot;field0&quot;: &quot;Mass&quot;,
-          &quot;field1&quot;: 1
+        &quot;field2&quot;: {
+          &quot;field0&quot;: &quot;N/A&quot;,
+          &quot;field1&quot;: &quot;Annual&quot;,
+          &quot;field3&quot;: {
+            &quot;field0&quot;: &quot;No&quot;,
+            &quot;field2&quot;: {
+              &quot;field0&quot;: &quot;No&quot;,
+              &quot;field2&quot;: {
+                &quot;field0&quot;: &quot;No&quot;,
+                &quot;field2&quot;: {
+                  &quot;field0&quot;: &quot;No&quot;,
+                  &quot;field2&quot;: {
+                    &quot;field0&quot;: &quot;Yes&quot;,
+                    &quot;field1&quot;: {
+                      &quot;field0&quot;: &quot;Based on the net electricity generation and a CO2 emission factor of each power unit&quot;,
+                      &quot;field2&quot;: {
+                        &quot;field1&quot;: [
+                          {
+                            &quot;field0&quot;: &quot;Data available for fuel consumption and electricity generation&quot;,
+                            &quot;field1&quot;: {
+                              &quot;field2&quot;: &quot;Power Unit 1&quot;,
+                              &quot;field3&quot;: 23859,
+                              &quot;field4&quot;: &quot;2019&quot;,
+                              &quot;field5&quot;: [
+                                {
+                                  &quot;field0&quot;: &quot;Coal&quot;,
+                                  &quot;field1&quot;: 1520,
+                                  &quot;field2&quot;: 22.609,
+                                  &quot;field3&quot;: 0.7665
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          &quot;field4&quot;: {
+            &quot;field2&quot;: 2019,
+            &quot;field3&quot;: 0,
+            &quot;field4&quot;: [
+              {
+                &quot;field0&quot;: &quot;N/A&quot;,
+                &quot;field1&quot;: &quot;2019-01-01&quot;,
+                &quot;field2&quot;: 1,
+                &quot;field3&quot;: 0
+              }
+            ]
+          },
+          &quot;field5&quot;: {
+            &quot;field0&quot;: &quot;No&quot;,
+            &quot;field1&quot;: &quot;Yes&quot;,
+            &quot;field2&quot;: &quot;All Other Projects&quot;,
+            &quot;field5&quot;: {
+              &quot;field0&quot;: &quot;Neither&quot;,
+              &quot;field3&quot;: {
+                &quot;field4&quot;: &quot;No&quot;,
+                &quot;field5&quot;: &quot;Less than or equal&quot;,
+                &quot;field6&quot;: &quot;Yes&quot;
+              }
+            }
+          }
         }
       }
-    ]
-  },
-  &quot;tool_05&quot;: {
-    &quot;field0&quot;: &quot;Electricity consumption from the grid&quot;,
-    &quot;field7&quot;: {
-      &quot;field0&quot;: &quot;Use conservative default values&quot;,
-      &quot;field1&quot;: {
-        &quot;field0&quot;: 1,
-        &quot;field1&quot;: 1,
-        &quot;field2&quot;: &quot;example&quot;,
-        &quot;field3&quot;: 1,
-        &quot;field4&quot;: 1,
-        &quot;field5&quot;: &quot;example&quot;,
-        &quot;field6&quot;: 1,
-        &quot;field7&quot;: 1,
-        &quot;field8&quot;: &quot;example&quot;
-      },
-      &quot;field3&quot;: {
-        &quot;field0&quot;: &quot;Only to baseline electricity consumption sources but not to project or leakage electricity consumption sources&quot;,
-        &quot;field1&quot;: &quot;Yes&quot;
-      }
     }
-  }
 }
 vars.put(&apos;ReportDataBody&apos;, JSON.stringify({
     document: doc, 
@@ -3709,7 +3971,7 @@ vars.put(&apos;ReportDataBody&apos;, JSON.stringify({
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                 <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/assign_vvb/blocks</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -3807,7 +4069,7 @@ vars.put(&apos;AssignedReportDataBody&apos;, JSON.stringify(assignRequest));</st
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                 <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/approve_report_btn/blocks</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -3944,7 +4206,7 @@ vars.put(&apos;ReportVerifyData&apos;, JSON.stringify({
                 <stringProp name="HTTPSampler.domain"></stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
                 <stringProp name="HTTPSampler.path">api/v1/policies/${policyId}/tag/sr_approve_report_btn/blocks</stringProp>
                 <stringProp name="HTTPSampler.method">POST</stringProp>
                 <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -4013,7 +4275,7 @@ vars.put(&apos;ReportApproveData&apos;, JSON.stringify({
             </TransactionController>
             <hashTree>
               <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While Report is verifying" enabled="true">
-                <stringProp name="WhileController.condition">${__javaScript(&quot;${balance}&quot; != &quot;85&quot;,)}</stringProp>
+                <stringProp name="WhileController.condition">${__javaScript(&quot;${balance}&quot; != &quot;10639&quot;,)}</stringProp>
               </WhileController>
               <hashTree>
                 <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
@@ -4167,6 +4429,51 @@ vars.put(&apos;ReportApproveData&apos;, JSON.stringify({
               </collectionProp>
             </HeaderManager>
             <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Tenant Id" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+  &quot;pageSize&quot;: 10,&#xd;
+  &quot;pageIndex&quot;: 0,&#xd;
+  &quot;sortDirection&quot;: &quot;desc&quot;&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">api/v1/tenants/user</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract tenant id" enabled="true">
+                <stringProp name="JSONPostProcessor.referenceNames">tenantId</stringProp>
+                <stringProp name="JSONPostProcessor.jsonPathExprs">$..id</stringProp>
+                <stringProp name="JSONPostProcessor.match_numbers">1</stringProp>
+                <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
+              </JSONPostProcessor>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">${__setProperty(tenantId,${tenantId})}</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Delete existing tenant" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -4174,7 +4481,7 @@ vars.put(&apos;ReportApproveData&apos;, JSON.stringify({
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-  &quot;tenantId&quot;: &quot;${tenantId}&quot;,&#xd;
+  &quot;tenantId&quot;: &quot;${__property(tenantId)}&quot;,&#xd;
   &quot;tenantName&quot;: &quot;${TENANT_NAME}&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>

@@ -78,16 +78,6 @@
             <stringProp name="Argument.value">443</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="policyId" elementType="Argument">
-            <stringProp name="Argument.name">policyId</stringProp>
-            <stringProp name="Argument.value">6749cfe501c276269ead7ba5</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="tenantId" elementType="Argument">
-            <stringProp name="Argument.name">tenantId</stringProp>
-            <stringProp name="Argument.value">6749c752f2f6cec04884163d</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
