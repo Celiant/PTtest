@@ -2953,7 +2953,7 @@ if (result!=&quot;&quot;)
                 <stringProp name="readTimeout">6000</stringProp>
               </eu.luminis.jmeter.wssampler.OpenWebSocketSampler>
               <hashTree/>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Import Policy" enabled="true">
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Import CDM Policy" enabled="true">
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
