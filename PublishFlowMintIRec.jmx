@@ -417,8 +417,8 @@
         </TransactionController>
         <hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="User creation(admin side)" enabled="true">
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">true</boolProp>
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Invite and accept SR" enabled="true">
@@ -674,8 +674,8 @@
             </hashTree>
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="User creation(SR side)" enabled="true">
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">true</boolProp>
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Generate sr hedera data" enabled="true">
@@ -765,7 +765,7 @@
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr key gen" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr key gen" enabled="false">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
                 <stringProp name="port">${PORT_OS_WS}</stringProp>
@@ -801,7 +801,7 @@
                 </JSONPostProcessor>
                 <hashTree/>
               </hashTree>
-              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While sr key gen" enabled="true">
+              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While sr key gen" enabled="false">
                 <stringProp name="WhileController.condition">${__javaScript(&quot;${operationStatusSR}&quot; != &quot;Operation completed&quot;,)}</stringProp>
               </WhileController>
               <hashTree>
@@ -849,7 +849,7 @@
                   <hashTree/>
                 </hashTree>
               </hashTree>
-              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While sr key gen(without WS)" enabled="false">
+              <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While sr key gen(without WS)" enabled="true">
                 <stringProp name="WhileController.condition">${__javaScript(&quot;${operationStatusSR}&quot; != &quot;DONE&quot;,)}</stringProp>
               </WhileController>
               <hashTree>
@@ -1062,7 +1062,7 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr link" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for sr link" enabled="false">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
                 <stringProp name="port">${PORT_MGS_WS}</stringProp>
@@ -1295,8 +1295,8 @@ if (result!=&quot;&quot;)
             </hashTree>
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="User creation(user side)" enabled="true">
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
             <boolProp name="TransactionController.parent">true</boolProp>
+            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Generate user hedera data" enabled="true">
@@ -1386,7 +1386,7 @@ if (result!=&quot;&quot;)
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user key gen" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user key gen" enabled="false">
                 <boolProp name="TLS">false</boolProp>
                 <stringProp name="server">localhost</stringProp>
                 <stringProp name="port">${PORT_OS_WS}</stringProp>
@@ -1684,7 +1684,7 @@ if (result!=&quot;&quot;)
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
               <hashTree/>
-              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user link" enabled="true">
+              <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WS open for user link" enabled="false">
                 <boolProp name="TLS">true</boolProp>
                 <stringProp name="server">dev.guardianservice.app</stringProp>
                 <stringProp name="port">${PORT_MGS_WS}</stringProp>
@@ -1933,7 +1933,6 @@ if (result!=&quot;&quot;)
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Requests for Import" enabled="true">
               <boolProp name="TransactionController.parent">false</boolProp>
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login by SR" enabled="true">
@@ -2205,7 +2204,6 @@ if (result!=&quot;&quot;)
             </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Requests for Publish" enabled="true">
               <boolProp name="TransactionController.parent">false</boolProp>
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -2389,7 +2387,6 @@ if (result!=&quot;&quot;)
               </hashTree>
             </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Assign policy" enabled="true">
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
               <boolProp name="TransactionController.parent">true</boolProp>
             </TransactionController>
             <hashTree>
@@ -2486,7 +2483,6 @@ if (result!=&quot;&quot;)
         <hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Token associate" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Access Token" enabled="true">
@@ -2695,7 +2691,6 @@ if (result!=&quot;&quot;)
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Grant KYC" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -3022,7 +3017,6 @@ if (result!=&quot;&quot;)
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Application creation" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Access Token" enabled="true">
@@ -3097,6 +3091,10 @@ if (result!=&quot;&quot;)
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
             </HTTPSamplerProxy>
+            <hashTree/>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">10000</stringProp>
+            </ConstantTimer>
             <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get application schema" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -3215,7 +3213,6 @@ vars.put(&apos;app_schema_field3_type&apos;, schema.fields[3].context.type)</str
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Application approve" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -3440,7 +3437,6 @@ if (result==&quot;true&quot;)
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Device creation" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Access Token" enabled="true">
@@ -3717,7 +3713,6 @@ vars.put(&apos;device_body&apos;, JSON.stringify(body));
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Device approve" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -3933,7 +3928,6 @@ vars.put(&apos;device_row_body&apos;, JSON.stringify({
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Issue creation" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Access Token" enabled="true">
@@ -4234,7 +4228,6 @@ vars.put(&apos;issue_body&apos;, JSON.stringify(body));
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Issue approve" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get SR Access Token" enabled="true">
@@ -4450,7 +4443,6 @@ vars.put(&apos;issue_row_body&apos;, JSON.stringify({
           </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Token minting verify" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
-            <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Access Token" enabled="true">
